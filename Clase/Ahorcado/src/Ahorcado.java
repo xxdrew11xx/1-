@@ -1,11 +1,13 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Ahorcado {
     public static void main(String[] args) throws Exception {
-        
+
+        int j = 0;
         String word = "";
         char letter = ' ';
-        boolean verif = true;
+        boolean verif = false;
 
         System.out.println();
 
@@ -38,9 +40,32 @@ public class Ahorcado {
 
             }
 
+                System.out.print("\n[!] Aciertos: ");
+
+                for(int z = 0; z < word.length(); z++)
+                {
+
+                    System.out.print(acertado[z]);
+
+                }
+
+                System.out.println();
+
+                System.out.print("\n[!] FALLOS: ");
+
+                for(int z = 0; z < word.length(); z++)
+                {
+
+                    System.out.print(fallo[z]);
+
+                }
+
+                System.out.println("\n");
+
             //---------------------------------------------------------------Llenado de vectores con la letra a introducir------------------------------------------------------------------------------------------
             for(int i = 0; i < word.length()*2; i++)
             {
+                int cont = 0;
 
                 //---------------------------------------------------------------Lectura de letra------------------------------------------------------------------------------------------
                 do
@@ -52,17 +77,26 @@ public class Ahorcado {
                 while(letter == '\n');    
 
                 //---------------------------------------------------------------Verificacion de letras------------------------------------------------------------------------------------------
-                for(int j = 0; j < word.length(); j++)
+                for(j = 0; j < word.length(); j++)
                 {
 
                     if( letter == palabra[j])
                     {
 
                         acertado[j] = letter;
-                        break;
+                        verif=true;
+                        cont ++;               
 
                     }
-                    else if( j == word.length()-1)
+                    else if (j == word.length()-1 && cont == 0)
+                    {
+
+                        verif = false;
+
+                    }
+                    
+                }
+                if(verif != true)
                     {
 
                         for(int s = 0; s < word.length(); s++)
@@ -79,9 +113,6 @@ public class Ahorcado {
                         }
 
                     }
-
-
-                }
 
                 //---------------------------------------------------------------Visualizacion de vectores ------------------------------------------------------------------------------------------
                 System.out.print("\n[!] Aciertos: ");
@@ -107,22 +138,31 @@ public class Ahorcado {
                 System.out.println("\n");
 
                 //---------------------------------------------------------------Finalizacion del programa------------------------------------------------------------------------------------------
-                for(int h = 0; h < fallo.length; h++)
+                if(Arrays.asList(acertado).contains(word))
                 {
 
-                    if(fallo[h] == '_')
+                    i = word.length()*2;
+
+                }
+                else
+                {
+                    for(int h = 0; h < fallo.length; h++)
                     {
 
-                        break;
+                        if(fallo[h] == '_')
+                        {
 
-                    }
-                    else if(h == fallo.length -1)
-                    {
+                            break;
 
-                        System.out.println("La palabra era: " + word);
-                        i = word.length()*2;
+                        }
+                        else if(h == fallo.length -1)
+                        {
 
-                    }
+                            System.out.println("La palabra era: " + word);
+                            i = word.length()*2;
+
+                        }
+                    }    
 
                 }
 
@@ -156,6 +196,9 @@ public class Ahorcado {
 
            } 
            while (verif != false);
+
+           System.out.println();
+           System.out.println();
             
 
         sc.close();
