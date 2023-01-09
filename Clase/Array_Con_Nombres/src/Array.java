@@ -4,6 +4,8 @@ public class Array {
 
     public static void llenar(String vn[], Scanner sc){
 
+        //falta try catch
+
         for(int i = 0; i < vn.length; i++)
         {
 
