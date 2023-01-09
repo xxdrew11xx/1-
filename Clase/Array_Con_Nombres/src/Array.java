@@ -34,7 +34,7 @@ public class Array {
         {
             for (int j = 0; j < vn.length- 1; j++) 
             {                                                              
-                if (vn[i].compareToIgnoreCase(vn[j]) < 0) 
+                if (vn[i].compareToIgnoreCase(vn[j]) < 0) // si se quiere ordenar de z -> a, cambiar el < por >
                 {
                     aux = vn[i];
                     vn[i] = vn[j];
