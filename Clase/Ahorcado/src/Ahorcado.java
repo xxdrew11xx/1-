@@ -44,7 +44,6 @@ public class Ahorcado {
 
                 for(int z = 0; z < word.length(); z++)
                 {
-
                     System.out.print(acertado[z]);
 
                 }
@@ -136,6 +135,8 @@ public class Ahorcado {
                 }
 
                 System.out.println("\n");
+
+                
 
                 //---------------------------------------------------------------Finalizacion del programa------------------------------------------------------------------------------------------
                 if(Arrays.asList(acertado).contains(word))
