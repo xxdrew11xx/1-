@@ -19,8 +19,6 @@ public class Array {
     public static void ordenar(String vn[])
     {
 
-        String aux;
-
         System.out.print("\n[!] El array desordenado es: " + vn[0]);
 
         for(int i = 1; i < vn.length; i++)
@@ -38,7 +36,7 @@ public class Array {
             {                                                              
                 if (vn[i].compareToIgnoreCase(vn[j]) < 0) // si se quiere ordenar de z -> a, cambiar el < por >
                 {
-                    aux = vn[i];
+                    String aux = vn[i];
                     vn[i] = vn[j];
                     vn[j] = aux;
                 }
