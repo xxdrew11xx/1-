@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Menu {
@@ -5,8 +6,6 @@ public class Menu {
     static int menu(Scanner e){
 
         int opcion = 4;
-
-
 
         do 
         {
@@ -37,8 +36,24 @@ public class Menu {
     static String stringinput(String cadena, Scanner sc){
 
      
-        System.out.print("\n[+] Introduce una cadena: ");                
-        cadena=sc.nextLine();
+        do 
+        {
+            
+            try 
+            {
+
+                System.out.print("\n[+] Introduce una cadena: ");                
+                cadena=sc.nextLine();
+                
+            } 
+            catch (InputMismatchException ime) {
+                
+                cadena = "\n";
+
+            }
+
+        } 
+        while (cadena == "\n");
             
       return cadena;
 
@@ -46,10 +61,53 @@ public class Menu {
 
     static String createstring(String cadena){
 
+        String cadenanum ="", cadenacar="",cadenanorm="";
+        char caracter=' ';
+
         System.out.print("\n[!] Cadena agrupada");
 
         System.out.println();
         System.out.println();
+
+        for(int i = 0; i < cadena.length(); i++)
+        {
+
+            caracter=cadena.charAt(i);
+
+            if (Character.isLetter(caracter)) 
+            {
+
+                cadenanorm+=caracter;
+                
+            }
+            else
+            {
+
+                if(!Character.isDigit(caracter))
+                {
+
+                    cadenanum+=caracter;
+
+                }
+                else
+                {
+
+                    if (caracter != ' ') 
+                    {
+
+                        cadenacar+=caracter;
+                        
+                    }
+
+                }
+
+            }
+            
+
+
+        }
+
+        cadena=cadenanorm+cadenanum+cadenacar;
 
         return cadena.replaceAll(" ", "");
 
@@ -101,7 +159,7 @@ public class Menu {
                     case 4:
 
                         break;
-
+                    
                     default:
                         break;
                 }
