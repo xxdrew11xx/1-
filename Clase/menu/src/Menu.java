@@ -109,7 +109,7 @@ public class Menu {
 
         cadena=cadenanorm+cadenanum+cadenacar;
 
-        return cadena.replaceAll(" ", "");
+        return cadena;
 
     }
     
