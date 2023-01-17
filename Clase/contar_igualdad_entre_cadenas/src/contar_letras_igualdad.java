@@ -148,7 +148,7 @@ public class contar_letras_igualdad {
             } 
             catch (IOException ioe) {}
 
-        for(int i = 0; i < cadena.length(); i++)
+        for(int i = 0; i < cadena.length();)
         {
 
             if(cadena.charAt(i) == ch1)
@@ -201,8 +201,6 @@ public class contar_letras_igualdad {
                 case 2:
 
                     cadenainvertida=inverrtirString(cadena);
-                    System.out.println(cadenainvertida);
-                    System.out.println(cadena);
                     break;
 
                 case 3:
@@ -229,3 +227,4 @@ public class contar_letras_igualdad {
         
     }
 }
+
