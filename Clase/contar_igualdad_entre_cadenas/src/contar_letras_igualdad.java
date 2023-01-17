@@ -20,7 +20,7 @@ public class contar_letras_igualdad {
             System.out.println();
             System.out.print("[OPCION]----> ");
             
-            opcion = e.nextInt();
+            opcion = e.nextInt();  
 
             if(opcion < 1 || opcion > 5)
             {
@@ -148,15 +148,15 @@ public class contar_letras_igualdad {
             } 
             catch (IOException ioe) {}
 
-        for(int i = 0; i < cadena.length();)
+        for(int i = 0; i < cadena.length(); i++)
         {
 
             if(cadena.charAt(i) == ch1)
             {
                 charexist = true;
-
+                break;
             }   
-            break;
+            
 
         }
 
