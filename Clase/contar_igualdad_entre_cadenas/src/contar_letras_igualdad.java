@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -14,13 +15,14 @@ public class contar_letras_igualdad {
             System.out.print("\n[1]---------> Teclear Cadena");
             System.out.print("\n[2]---------> Invertir cadena");
             System.out.print("\n[3]---------> Visualizar coincidencias");
-            System.out.println("\n[4]---------> Exit");
+            System.out.print("\n[4]---------> Introducir caracter y comprobar en la cadena");
+            System.out.println("\n[5]---------> Exit");
             System.out.println();
             System.out.print("[OPCION]----> ");
             
             opcion = e.nextInt();
 
-            if(opcion < 1 || opcion > 4)
+            if(opcion < 1 || opcion > 5)
             {
 
                 System.out.print("\n[!!] OPCION NO VALIDA");
@@ -28,7 +30,7 @@ public class contar_letras_igualdad {
             }
 
         } 
-        while (opcion < 1 || opcion > 4);
+        while (opcion < 1 || opcion > 5);
 
         return opcion;
     }
@@ -83,37 +85,42 @@ public class contar_letras_igualdad {
         System.out.println();
 
         int letras = 0, numeros = 0, otros = 0, total = 0;
-        Character ch1 = ' ', ch2=' ';
 
         for(int i = 0; i < cadena.length() - 1; i++)
         {
-            ch1 = cadena.charAt(i);
-            ch2 = cadenaInvertida.charAt(i);
 
 
-            if(Character.isLetter(ch1) == Character.isLetter(ch2))
+            if(cadena.charAt(i) == cadenaInvertida.charAt(i))
             {
 
-                letras += 1;
+                total += 1;
 
-            }
-            else
-            {
-
-                if(Character.isDigit(ch1) == Character.isDigit(ch2))
+                if(Character.isLetter(cadena.charAt(i)))
                 {
 
-                    numeros += 1;
+                    letras += 1;
 
                 }
                 else
                 {
 
-                    otros += 1;
+                    if(Character.isDigit(cadena.charAt(i)))
+                    {
+
+                        numeros += 1;
+
+                    }
+                    else
+                    {
+
+                        otros += 1;
+
+                    }
 
                 }
 
             }
+
         }
 
         total = numeros + letras + otros;
@@ -128,19 +135,43 @@ public class contar_letras_igualdad {
 
     }
 
-    static void existeletra(Scanner e){
+    static void existeletra(Scanner e, String cadena) {
 
         Character ch1 = ' ';
+        boolean charexist = false;
 
-        System.out.print("\n[+] Introduce una letra para ver si está en el string");
+            System.out.print("\n[+] Introduce una letra para ver si está en el string: ");
+            try 
+            {
+                ch1 = (char) System.in.read();
+                
+            } 
+            catch (IOException ioe) {}
 
-        do 
+        for(int i = 0; i < cadena.length(); i++)
         {
-            System.out.print("\n[+] Introduce una letra para ver si está en el string");
-            
-            
-        } 
-        while (ch1 != '\n');
+
+            if(cadena.charAt(i) == ch1)
+            {
+                charexist = true;
+
+            }   
+            break;
+
+        }
+
+        if(charexist == true)
+        {
+
+            System.out.print("\n[!] El caracter " + ch1 + " está en la cadena\n");
+
+        }
+        else
+        {
+
+            System.out.print("\n[!!] El caracter " + ch1 + " no está en la cadena\n");
+
+        }
 
 
     }
@@ -148,7 +179,7 @@ public class contar_letras_igualdad {
     public static void main(String[] args) throws Exception {
 
         int opcion = 0;
-        String cadena = "", cadenainvertida="";
+        String cadena = null, cadenainvertida = null;
 
         System.out.println();
 
@@ -181,13 +212,18 @@ public class contar_letras_igualdad {
 
                 case 4:
 
+                    existeletra(e, cadena);
+                    break;
+                
+                case 5:
+
                     break;
                 
                 default:
                     break;
             }
         } 
-        while (opcion != 4);
+        while (opcion != 5);
 
         e.close();
         
