@@ -30,7 +30,7 @@ public class Intercalar_cadena {
             {
 
                 opcion = 0;
-                System.out.print("\n[!!] Solo variables numericas.\n\n");
+                System.out.print("\n[!!] Solo variables numéricas.\n\n");
                 break;
 
             }
