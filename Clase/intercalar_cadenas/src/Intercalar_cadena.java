@@ -126,7 +126,7 @@ public class Intercalar_cadena {
 
 
 
-        for(int i = 0; i < longitud.length() -1; i++ )
+        for(int i = 0; i < longitud.length(); i++ )
         {
 
             if( i >= longitud2.length())
@@ -138,7 +138,7 @@ public class Intercalar_cadena {
             else
             {
 
-                cadenaInter = cadenaInter + longitud.charAt(i) + longitud2.charAt(i);
+                cadenaInter = cadenaInter + longitud.charAt(i) + longitud2.charAt((longitud2.length() - 1) - i);
 
             }
 
@@ -178,7 +178,7 @@ public class Intercalar_cadena {
 
                 case 3:
 
-                    System.out.print("\n[!] La cadea intercalada es: " + cadenainter);
+                    System.out.print("\n[!] La cadea intercalada es: " + cadenainter + "\n\n\n");
                     break;
                 
                 default:
