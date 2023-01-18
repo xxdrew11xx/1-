@@ -1,6 +1,8 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import javax.lang.model.util.ElementScanner6;
+
 public class Intercalar_cadena {
 
     static int menu(Scanner e){
@@ -46,54 +48,60 @@ public class Intercalar_cadena {
         return opcion;
     }
 
-    static String stringinput(String cadena, Scanner sc){
+    static String stringinput(String cadena,String cadena2, Scanner sc){
 
      
-        do 
+        if(cadena == null)
         {
-            
-            try 
-            {
 
-                System.out.print("\n[+] Introduce una cadena: ");                
-                cadena=sc.nextLine();
+            do 
+            {
+            
+                try 
+                {
+
+                    System.out.print("\n[+] Introduce una cadena: ");                
+                    cadena=sc.nextLine();
                 
-            } 
-            catch (InputMismatchException ime) {
+                } 
+                catch (InputMismatchException ime) {
                 
-                cadena = "\n";
+                    cadena = "\n";
+
+                }
 
             }
+            while (cadena == "\n");
 
-        } 
-        while (cadena == "\n");
-
-        return cadena;            
-    }
-
-    static String stringinput2(String cadena, Scanner sc){
-
-        
-        do 
+            return cadena;
+        }
+        else 
         {
-            
-            try 
+
+            do 
             {
+            
+                try 
+                {  
 
-                System.out.print("\n[+] Introduce una cadena: ");                
-                cadena=sc.nextLine();
+                    System.out.print("\n[+] Introduce otra cadena: ");                
+                    cadena2=sc.nextLine();
                 
+                } 
+                catch (InputMismatchException ime) {
+                
+                    cadena2 = "\n";
+
+                }
+
             } 
-            catch (InputMismatchException ime) {
-                
-                cadena = "\n";
+            while (cadena2 == "\n");
 
-            }
+            return cadena2;
 
-        } 
-        while (cadena == "\n");
+        }
 
-        return cadena;
+                    
     }
 
     static String intercalar(String cadena, String cadena2){
@@ -159,8 +167,8 @@ public class Intercalar_cadena {
             {
                 case 1:
                     
-                    cadena = stringinput(cadena,e);
-                    cadena2 = stringinput2(cadena, e);
+                    cadena = stringinput(cadena, cadena2, e);
+                    cadena2 = stringinput(cadena, cadena2, e);
                     break;
                 
                 case 2:
