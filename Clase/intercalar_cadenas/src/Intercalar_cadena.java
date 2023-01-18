@@ -18,7 +18,20 @@ public class Intercalar_cadena {
             System.out.println();
             System.out.print("[OPCION]----> ");
             
-            opcion = e.nextInt();  
+            try 
+            {
+
+                opcion = e.nextInt();  
+            
+            } 
+            catch (InputMismatchException ime) 
+            {
+
+                opcion = 0;
+                System.out.print("\n[!!] Solo variables numericas.\n\n");
+                break;
+
+            }
 
             if(opcion < 1 || opcion > 4)
             {
@@ -26,7 +39,7 @@ public class Intercalar_cadena {
                 System.out.print("\n[!!] OPCION NO VALIDA");
 
             }
-
+          
         } 
         while (opcion < 1 || opcion > 4);
 
