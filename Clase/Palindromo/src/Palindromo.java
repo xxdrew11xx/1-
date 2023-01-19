@@ -15,10 +15,22 @@ public class Palindromo {
                 cadena = e.nextLine();
                 
             } 
-            catch (InputMismatchException ime) {}
+            catch (InputMismatchException ime) 
+            {
+
+                cadena = "\n";
+
+            }
+
+            if(cadena == "\n" || cadena.length() <= 1)
+            {
+
+                System.out.println("\n[!!] Cadena invalida\n\n");
+
+            }
             
         }
-        while(cadena == "\n");
+        while(cadena == "\n" || cadena.length() <= 1);
 
         return cadena;
     }
@@ -28,7 +40,7 @@ public class Palindromo {
         int longitud = 0;
         boolean opcion = true;
         
-        cadena = cadena.toLowerCase().replace(" ", "").replace(".","").replace(",", "").replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u");
+        cadena = cadena.toLowerCase().replace(" ", "").replace(".","").replace(",", "").replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u").replace("ü", "u");
 
         if(cadena.length() % 2 == 0)
         {  
@@ -39,7 +51,7 @@ public class Palindromo {
         else
         {
 
-            longitud = (cadena.length()/2) + (1/2);
+            longitud = (cadena.length()/2) + (1/2); 
 
         }
 
