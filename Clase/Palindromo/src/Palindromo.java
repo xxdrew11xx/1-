@@ -82,13 +82,13 @@ public class Palindromo {
             if(espalindromo(cadena))
             {
 
-                System.out.println("\n[!] La cadena ===> " + cadena +  " es palindromo");
+                System.out.println("\n[!] La cadena ===> " + cadena +  ", es palindromo");
 
             }
             else
             {
 
-                System.out.println("\n[!] La cadena ===> " + cadena +  " NO es palindromo");
+                System.out.println("\n[!] La cadena ===> " + cadena +  ", NO es palindromo");
 
             }
 
