@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class archivo_buffered {
     public static void main(String[] args) throws Exception {
         
-        File data = new File("/home/h4ck3d/dam/Programcion_clase/Clase/archivo_1/data/data.txt");
+        File data = new File("data.txt");
         String texto = "", linea = "";
         int contador = 0;
 
@@ -22,14 +22,14 @@ public class archivo_buffered {
             try 
             {
 
-                FileWriter fw = new FileWriter(data, true);
+                FileWriter fw = new FileWriter(data.getAbsolutePath(), false);
                     
                     BufferedWriter bw = new BufferedWriter(fw);
 
                         System.out.print("\n[+] Introduce un string: ");
                         texto = sc.nextLine();
                         
-                        while(!texto.equals("\n"))
+                        while(!texto.equals("-"))
                         {
 
                             bw.write(texto);
@@ -47,7 +47,7 @@ public class archivo_buffered {
             catch (IOException ioe) 
             {
                 
-                System.out.print("\n[!!] ERROR\n\n");
+                System.out.print("\n[!!] ERROR" + ioe.getMessage() + "\n\n");
                 
             }
 
@@ -57,22 +57,25 @@ public class archivo_buffered {
             try 
             {
 
-                BufferedReader br = new BufferedReader(new FileReader(data));
+                BufferedReader br = new BufferedReader(new FileReader(data.getCanonicalPath()));
 
                     linea = br.readLine();
+                    System.out.println();
 
                     while (linea != null)
                     {
                         contador++;
-                        System.out.print("\n Linea " + contador + ": " + linea);
+                        System.out.println("Linea " + contador + ": " + linea);
                         linea = br.readLine();
                     }
 
                 br.close();
                 
             } 
-            catch (Exception e) 
+            catch (IOException ioe) 
             {
+
+                System.out.print("\n[!!] ERROR" + ioe.getMessage() + "\n\n");
                 
             }
 
