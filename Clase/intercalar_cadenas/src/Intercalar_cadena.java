@@ -1,8 +1,6 @@
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-import javax.lang.model.util.ElementScanner6;
-
 public class Intercalar_cadena {
 
     static int menu(Scanner e){
