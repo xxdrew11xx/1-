@@ -127,22 +127,60 @@ public class Palabra {
 
         String frase = "", word = "", longestword = "";
 
-        int lineas = 0, longword = 0;;
+        int longword = 0, palabras = 0;
 
-        
+       
 
         try 
-        {
-
+        {            
             BufferedReader br = new BufferedReader(new FileReader(data.getCanonicalPath()));
+
+                frase = br.readLine();
+                System.out.println();
+
+                while (frase != null)
+                {   
+
+                    StringTokenizer Stexto = new StringTokenizer(frase);
+
+                        palabras = Stexto.countTokens();
+
+                        for(int j = 0; j < palabras ; j++)
+                        {
+
+                            word = Stexto.nextToken();
+
+                            if(word.length() > longword)
+                            {
+
+                                longword = word.length();
+                                longestword = word;
+
+
+                            }
+                            else if (word.length() == longword)
+                            {
+
+                                longestword = longestword + ", " + word;
+
+                            }
+
+                        }
+
+                    frase = br.readLine();
+
+                }
+
+            for(int i = 0; i < br.lines().count() - 1; i++)
+            {
 
                 frase = br.readLine();
 
                 StringTokenizer Stexto = new StringTokenizer(frase);
 
-                lineas = Stexto.countTokens();
+                System.out.println(Stexto.countTokens());
 
-                for(int i = 0; i < lineas ; i++)
+                for(int j = 0; j <= Stexto.countTokens() ; j++)
                 {
 
                     word = Stexto.nextToken();
@@ -163,29 +201,30 @@ public class Palabra {
                     }
 
                 }
+            }
 
-            br.close();    
-
-            for(int i = 0; i < longestword.length(); i++)
+            for(int j = 0; j < longestword.length(); j++)
             {
 
-                if(longestword.charAt(i) == ',')
+                if(longestword.charAt(j) == ',')
                 {
 
-                    System.out.print("\n[!] Las palabras más largas del archivo son: " + longestword);
+                    System.out.print("\n[!] Las palabras más largas del archivo son: " + longestword + "\n\n");
                     break;
 
                 }
-                else if (i == longestword.length() - 1)
+                else if (j == longestword.length() - 1)
                 {
 
-                    System.out.print("\n[!] La palabra más larga del archivo es: " + longestword);
+                    System.out.print("\n[!] La palabra más larga del archivo es: " + longestword  + "\n\n");
 
                 }
 
             }
 
+            
 
+        br.close();    
             
                 
         } 
@@ -204,6 +243,8 @@ public class Palabra {
     }
 
     public static void main(String[] args) throws Exception {
+
+        //--------------------------------Change File Directory---------------------------------------------------
         
         File data = new File("/home/h4ck3d/dam/Programcion_clase/Clase/frase_más_larga_buffered/data/data.txt");
 
