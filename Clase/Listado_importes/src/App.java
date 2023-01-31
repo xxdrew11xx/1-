@@ -172,7 +172,7 @@ public class App {
 
                         cantidad =  br.readLine();
 
-                        media += Integer.parseInt(cantidad);
+                        media += Float.parseFloat(cantidad);
                         personas ++;
 
                         nombre = br.readLine();
@@ -241,11 +241,11 @@ public class App {
 
     }
 
-    static int may(File data){
+    static float may(File data){
 
         String nombre = "", cantidad = "";
 
-        int mayor = 0;
+        float mayor = 0;
 
         try
         {
@@ -259,10 +259,10 @@ public class App {
 
                     cantidad = br.readLine();
 
-                    if(Integer.parseInt(cantidad) > mayor)
+                    if(Float.parseFloat(cantidad) > mayor)
                     {
 
-                        mayor = Integer.parseInt(cantidad);
+                        mayor = Float.parseFloat(cantidad);
 
                     }
 
@@ -285,11 +285,11 @@ public class App {
 
     }
 
-    static int min(File data){
+    static float min(File data){
 
         String nombre = "", cantidad = "";
 
-        int mayor = 50;
+        float mayor = 50;
 
         try
         {
@@ -303,10 +303,10 @@ public class App {
 
                     cantidad = br.readLine();
 
-                    if(Integer.parseInt(cantidad) < mayor)
+                    if(Float.parseFloat(cantidad) < mayor)
                     {
 
-                        mayor = Integer.parseInt(cantidad);
+                        mayor = Float.parseFloat(cantidad);
 
                     }
 
@@ -380,7 +380,7 @@ public class App {
 
     public static void main(String[] args) throws Exception {
 
-        File data = new File("/home/drew/DAM/Listado_importes/data/data.txt");
+        File data = new File("/home/drew/DAM/Programcion_clase/Clase/Listado_importes/data/data.txt");
 
         int opcion = 1;
         float  media = 0, may = 0, min = 0;
