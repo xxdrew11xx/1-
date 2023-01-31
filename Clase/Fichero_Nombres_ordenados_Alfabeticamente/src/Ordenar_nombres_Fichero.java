@@ -21,7 +21,8 @@ public class Ordenar_nombres_Fichero {
             System.out.print("\n[1]---------> Crear Fichero");
             System.out.print("\n[2]---------> Ordenar Fichero");
             System.out.print("\n[3]---------> Listar Fichero");
-            System.out.println("\n[4]---------> Exit");
+            System.out.print("\n[4]---------> Eliminar Fichero");
+            System.out.println("\n[5]---------> Exit");
             System.out.println();
             System.out.print("[OPCION]----> ");
             
@@ -38,7 +39,7 @@ public class Ordenar_nombres_Fichero {
 
             }
 
-            if(opcion < 1 || opcion > 4)
+            if(opcion < 1 || opcion > 5)
             {
 
                 System.out.print("\n[!!] OPCION NO VALIDA");
@@ -46,7 +47,7 @@ public class Ordenar_nombres_Fichero {
             }
 
         } 
-        while (opcion < 1 || opcion > 4);
+        while (opcion < 1 || opcion > 5);
 
         return opcion;
     }
@@ -59,7 +60,7 @@ public class Ordenar_nombres_Fichero {
         try 
         {
 
-            BufferedWriter bw = new BufferedWriter(new FileWriter(data,false));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(data,true));
 
             System.out.print("\n[+] Nombre (\"Fin\" para salir): ");
             nombre = sc.nextLine();
@@ -135,11 +136,6 @@ public class Ordenar_nombres_Fichero {
 
             BufferedReader br = new BufferedReader(new FileReader(data));
 
-                System.out.print("\n\n\t\t LISTADO GENERAL");
-                System.out.print("\n\t=================================");
-
-                System.out.print("\n\tNombre");
-
                 nombre = br.readLine();
 
                 while (nombre != null)
@@ -177,6 +173,11 @@ public class Ordenar_nombres_Fichero {
         {
 
             BufferedReader br = new BufferedReader(new FileReader(data));
+
+                System.out.print("\n\n\t\t LISTADO GENERAL");
+                System.out.print("\n\t=================================");
+
+                System.out.print("\n\tNombre");
 
                 nombre = br.readLine();
 
@@ -275,6 +276,14 @@ public class Ordenar_nombres_Fichero {
 
     }
 
+    static void filedel(File data){
+
+        data.delete();
+
+        System.out.print("\n[!] File deleted successfully\n\n");
+
+    }
+
 
     public static void main(String[] args) throws Exception {
         
@@ -310,12 +319,17 @@ public class Ordenar_nombres_Fichero {
                         listado_general(data);
                         System.out.println();
                         break;
+
+                    case 4:
+
+                        filedel(data);
+                        break;
                     
                     default:
                         break;
                 }
             } 
-            while (opcion != 4);
+            while (opcion != 5);
 
         sc.close();
 
