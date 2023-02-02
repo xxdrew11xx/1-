@@ -200,7 +200,20 @@ public class Altas_Facturas {
 
                 total = Float.parseFloat(unidades) * Float.parseFloat(precio) + iva;
 
-                System.out.print("\n" + codigo + "\t\t" + denominacion + "\t\t" + tipo + "\t\t" + unidades + "\t\t" + precio + "\t\t" + iva + "\t\t" + total );
+                if(denominacion.length() < 8)
+                {
+
+                    System.out.print("\n" + codigo + "\t\t" + denominacion + "\t\t\t" + tipo + "\t\t" + unidades + "\t\t" + precio + "\t\t" + iva + "\t\t\t" + total );
+
+                }
+                else
+                {
+
+                    System.out.print("\n" + codigo + "\t\t" + denominacion + "\t\t" + tipo + "\t\t" + unidades + "\t\t" + precio + "\t\t" + iva + "\t\t" + total );
+
+                }   
+
+                
 
                 total = 0;
 

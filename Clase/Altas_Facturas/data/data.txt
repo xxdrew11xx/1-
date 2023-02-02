@@ -3,3 +3,8 @@ Martillo
 A
 15
 2
+BBBBBB
+Pintura
+B
+30
+1
