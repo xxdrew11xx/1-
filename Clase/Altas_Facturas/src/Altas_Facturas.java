@@ -158,7 +158,7 @@ public class Altas_Facturas {
         //Codigo denominacion(nombre prod) tipo unidades vendidas 
 
         System.out.print("\nCodigo:\t\tDenominacion:\t\tTipo:\t\tUnidades\tPrecio:\t\tIva:\t\tTotal:");
-        System.out.print("\n----------------------------------------------------------------------------------------------------------------------");
+        System.out.print("\n--------------------------------------------------------------------------------------------------------------");
         
         try
         {
@@ -198,18 +198,26 @@ public class Altas_Facturas {
 
                 }
 
+                String numcadena = Float.toString(iva);
+
                 total = Float.parseFloat(unidades) * Float.parseFloat(precio) + iva;
 
                 if(denominacion.length() < 8)
                 {
 
-                    System.out.print("\n" + codigo + "\t\t" + denominacion + "\t\t\t" + tipo + "\t\t" + unidades + "\t\t" + precio + "\t\t" + iva + "\t\t\t" + total );
+                    System.out.print("\n" + codigo + "\t\t" + denominacion + "\t\t\t" + tipo + "\t\t" + unidades + "\t\t" + precio + "\t\t" + iva + "\t\t" + total );
+
+                }
+                else if(denominacion.length() >= 8 && numcadena.length() < 8)
+                {
+
+                    System.out.print("\n" + codigo + "\t\t" + denominacion + "\t\t" + tipo + "\t\t" + unidades + "\t\t" + precio + "\t\t" + iva + "\t\t" + total );
 
                 }
                 else
                 {
 
-                    System.out.print("\n" + codigo + "\t\t" + denominacion + "\t\t" + tipo + "\t\t" + unidades + "\t\t" + precio + "\t\t" + iva + "\t\t" + total );
+                    System.out.print("\n" + codigo + "\t\t" + denominacion + "\t\t" + tipo + "\t\t" + unidades + "\t\t" + precio + "\t\t" + iva + "\t" + total );
 
                 }   
 
