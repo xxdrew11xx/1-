@@ -152,7 +152,7 @@ public class Altas_Facturas {
 
         String codigo = "", denominacion = "", tipo = "", unidades = "", precio = "";
 
-        float iva = 0, total = 0;
+        float iva = 0, total = 0, totalfac = 0;
 
 
         //Codigo denominacion(nombre prod) tipo unidades vendidas 
@@ -222,7 +222,7 @@ public class Altas_Facturas {
                 }   
 
                 
-
+                totalfac += total;
                 total = 0;
 
                 codigo = br.readLine();
@@ -231,6 +231,9 @@ public class Altas_Facturas {
             }
 
             br.close();
+
+            System.out.println("\n\n--------------------------------------------------------------------------------------------------------------");
+            System.out.print("Total de la factura:\t\t\t\t\t\t\t\t\t\t\t" + totalfac);
 
 
         }
