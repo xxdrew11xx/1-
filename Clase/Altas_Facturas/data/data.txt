@@ -13,3 +13,8 @@ Pintura
 B
 15
 2
+JJJJJJ
+Montacargas
+B
+15,46
+2

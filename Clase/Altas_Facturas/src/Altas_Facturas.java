@@ -33,7 +33,9 @@ public class Altas_Facturas {
             catch (InputMismatchException ime) 
             {
             
-                System.out.print("\n[!!] ERROR: " + ime.getMessage());
+                System.out.print("\n[!!] ERROR: " + ime.getMessage() + "\n\n");
+                opcion = 5;
+                break;
 
             }
 
@@ -51,8 +53,6 @@ public class Altas_Facturas {
     }
 
     static void altas(Scanner sc, File data){
-
-        //Codigo denominacion(nombre prod) tipo unidades vendidas 
 
         String codigoProc = "", denominacion = "", precio = "", unidades = "", tipos = "";
  
@@ -99,8 +99,30 @@ public class Altas_Facturas {
                 bw.write(tipos);
                 bw.newLine();
 
-                System.out.print("\n[+] Precio: ");
-                precio = sc.nextLine();
+                System.out.print("\n[+] Precio (EJ: 10.10): ");
+                
+                while (precio == "");
+                {
+                
+                    try
+                    {
+
+                        precio = sc.nextLine();
+
+                    }
+                    catch(NumberFormatException nme)
+                    {
+
+                        System.out.print("\n[!!] Error: " + nme.getMessage() + "\n\n");
+                        precio = "";
+                        break;
+
+                    }
+
+                    System.out.print("\n[+] Precio (EJ: 10.10): ");
+
+                } 
+
                 bw.write(precio);
                 bw.newLine();
 
@@ -154,8 +176,6 @@ public class Altas_Facturas {
 
         float iva = 0, total = 0, totalfac = 0;
 
-
-        //Codigo denominacion(nombre prod) tipo unidades vendidas 
 
         System.out.print("\nCodigo:\t\tDenominacion:\t\tTipo:\t\tUnidades\tPrecio:\t\tIva:\t\tTotal:");
         System.out.print("\n--------------------------------------------------------------------------------------------------------------");
