@@ -23,7 +23,7 @@ public class Main {
             System.out.print("\n[[+] Introdduce la nota de la tercera evaluacion: ");
             alumno1.set_TerEv(sc.nextInt());
 
-            System.out.print("\n\n----------------------------------------------------------------------------------------------------------------------------------------------");
+            System.out.print("\n\n--------------------------------------------------------------------------------------------------------------------------------------------------");
             System.out.print("\nAlumno:\t\tNumero de clase\t\tPrimera Ev.\t\tSegunda Ev.\t\tTercera Ev.\t\tNota Media\t\tNota Final");
             
             if(alumno1.get_FinalMark() == false)

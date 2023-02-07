@@ -87,7 +87,7 @@ public class Alumno {
 
     Boolean get_FinalMark(){
 
-        if(get_PrimEv() <= 4)
+        if(get_PrimEv() <= 4 || get_SegEv() <= 4 || get_TerEv() <= 4)
         {
 
             return false;
@@ -95,31 +95,8 @@ public class Alumno {
         }
         else
         {
-
-            if(get_SegEv() <= 4)
-            {
-
-                return false;
-
-            }
-            else
-            {
-                if((get_TerEv() <= 4))
-                {
-
-                    return false;
-
-                }
-                else
-                {
-
-                    return true;
-
-                }
-                
-
-            }
-            
+ 
+            return true;
 
         }
 
