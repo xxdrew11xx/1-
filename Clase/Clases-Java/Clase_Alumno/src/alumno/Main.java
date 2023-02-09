@@ -27,30 +27,36 @@ public class Main {
             System.out.println();
             System.out.print("\nAlumno\t\tNumero de clase\t\tPrimera Ev.\t\tSegunda Ev.\t\tTercera Ev.\t\tNota Media\t\tNota Final");
             
-            if(alumno1.get_FinalMark() == false)
+            if(alumno1.get_FinalMark() == false && (alumno1.get_AverageMark()) >= 4.5)
             {
 
                 finalmark = 4;
 
             }
+            else if (alumno1.get_FinalMark() == false && (alumno1.get_AverageMark()) >= 4.5)
+            {
+
+                finalmark = (alumno1.get_AverageMark());
+
+            }
             else
             {
 
-                finalmark = Math.round(Float.parseFloat(alumno1.get_AverageMark()));
+                finalmark = (alumno1.get_AverageMark());
 
             }
 
             if(alumno1.get_Name().length() <8)
             {
 
-                System.out.print("\n" + alumno1.get_Name() + "\t\t" + alumno1.get_NumeroClase() + "\t\t\t" + alumno1.get_PrimEv() + "\t\t\t" + alumno1.get_SegEv() + "\t\t\t" + alumno1.get_TerEv() + "\t\t\t" + alumno1.get_AverageMark() + "\t\t\t" + finalmark + "\n");
+                System.out.print("\n" + alumno1.get_Name() + "\t\t" + alumno1.get_NumeroClase() + "\t\t\t" + alumno1.get_PrimEv() + "\t\t\t" + alumno1.get_SegEv() + "\t\t\t" + alumno1.get_TerEv() + "\t\t\t" + alumno1.get_AverageMark() + "\t\t\t" + Math.round(finalmark) + "\n");
 
 
             }
             else
             {
 
-                System.out.print("\n" + alumno1.get_Name() + "\t" + alumno1.get_NumeroClase() + "\t\t\t" + alumno1.get_PrimEv() + "\t\t\t" + alumno1.get_SegEv() + "\t\t\t" + alumno1.get_TerEv() + "\t\t\t" + alumno1.get_AverageMark() + "\t\t\t" + finalmark + "\n");
+                System.out.print("\n" + alumno1.get_Name() + "\t" + alumno1.get_NumeroClase() + "\t\t\t" + alumno1.get_PrimEv() + "\t\t\t" + alumno1.get_SegEv() + "\t\t\t" + alumno1.get_TerEv() + "\t\t\t" + alumno1.get_AverageMark() + "\t\t\t" + Math.round(finalmark) + "\n");
 
 
             }

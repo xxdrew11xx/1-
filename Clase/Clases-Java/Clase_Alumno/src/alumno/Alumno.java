@@ -76,12 +76,12 @@ public class Alumno {
 
     }
 
-    String get_AverageMark(){
+    Float get_AverageMark(){
 
         float averageMark = (get_PrimEv() + get_SegEv() + get_TerEv())/3;
 
 
-        return Float.toString(averageMark);
+        return averageMark;
 
     }
 
