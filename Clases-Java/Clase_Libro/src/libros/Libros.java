@@ -54,27 +54,27 @@ public class Libros {
 
     //------------------------------------GET------------------------------------
 
-    public String getAutor() {
+    public String get_Autor() {
 
         return autor;
     }
 
-    public String getIsbn() {
+    public String get_Isbn() {
 
         return isbn;
     }
 
-    public float getPrecio() {
+    public float get_Precio() {
 
         return precio;
     }
 
-    public String getGenero() {
+    public String get_Genero() {
 
         return genero;
     }
 
-    public String getTitulo() {
+    public String get_Titulo() {
 
         return titulo;
     }

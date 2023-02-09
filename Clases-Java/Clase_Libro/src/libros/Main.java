@@ -1,8 +1,9 @@
 package libros;
 
-import java.util.Arrays;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
 
 public class Main {
 
@@ -69,42 +70,51 @@ public class Main {
 
     static Libros[] altas(Scanner sc, Libros book[]){
 
-        String isbn = "";
+        String isbn = "", autor, genero, titulo;
         float precio;
 
         for(int i = 0; i < book.length; i++)
         {
 
-            System.out.print("\n[+] Introduce el ISBN del libro (XXX-XXX-XX-XXXX-X): ");
-            
-            while(isbn.charAt(3) != '-' && isbn.charAt(7) != '-' && isbn.charAt(10) != '-' && isbn.charAt(15) != '-')
+            do
             {
 
-
-                isbn = sc.nextLine();
-
-                if(isbn.charAt(3) != '-' && isbn.charAt(7) != '-' && isbn.charAt(10) != '-' && isbn.charAt(15) != '-')
+                try 
                 {
+                    do
+                    {
 
-                    System.out.print("\n[+] Introduce el ISBN del libro (XXX-XXX-XX-XXXX-X): ");
+                        System.out.print("\n[+] Introduce el ISBN del libro (XXX-XXX-XX-XXXX-X): ");
+                        isbn = sc.nextLine();
+
+                    } while(isbn.charAt(3) != '-' && isbn.charAt(7) != '-' && isbn.charAt(10) != '-' && isbn.charAt(15) != '-');
+
+                }
+                catch (StringIndexOutOfBoundsException ste) 
+                {
+            
+                    System.out.print("\n[!!] ERROR: " + ste.getMessage());
+                    isbn = "XXX-XXX-XX-XXXX-X";
+                    System.out.print("\n[!] ISBN introducido invalido");
 
                 }
 
             }
+            while (isbn == "XXX-XXX-XX-XXXX-X");
+            
 
+            System.out.print("\n[+] Introduce el titulo del libro: ");
+            titulo = sc.nextLine();
 
-            System.out.print("\n[+] Introduce el titulo del libro): ");
-            book[i].set_titulo(sc.nextLine());
+            System.out.print("\n[+] Introduce el autor del libro: ");
+            autor = sc.nextLine();
 
-            System.out.print("\n[+] Introduce el autor del libro): ");
-            book[i].set_autor(sc.nextLine());
-
-            System.out.print("\n[+] Introduce el genero del libro): ");
-            book[i].set_genero(sc.nextLine());
+            System.out.print("\n[+] Introduce el genero del libro: ");
+            genero  = sc.nextLine();
             
             do
             {
-                System.out.print("\n[+] Introduce el precio del libro): ");
+                System.out.print("\n[+] Introduce el precio del libro: ");
 
                 try
                 {
@@ -117,13 +127,15 @@ public class Main {
 
                     System.out.print("\n[!!] ERROR: " + ime.getMessage());
                     precio = 0;
+                    break;
 
                 }
 
             }
             while (precio == 0);
 
-            book[i].set_precio(precio);
+            book[i] = new Libros(isbn, titulo, autor, genero, precio);
+            sc.nextLine();
 
         }
 
@@ -131,15 +143,14 @@ public class Main {
 
     }
 
-    static void visualizarElementos(Libros book[]){
-
-        System.out.print("\n--------------------------------------------------------------------------------------------------------------------------------------------------");
-        System.out.print("\nISBN:\t\t\tTitulo:\t\t\tAutor:\t\t\tGenero:\t\t\tPrecio:\n");
+    static void visualizarLibros(Libros book[]){
 
         for(int i = 0; i < book.length; i++)
         {
+            System.out.print("\n[!] Libro " + (i+1));
+            System.out.print("\n--------------------------------------------------------------------------------------------------------------------------------------------------");
         
-           System.out.print(book[i].getIsbn() + "\t\t\t" + book[i].getTitulo() + "\t\t\t" + book[i].getAutor() + "\t\t\t" + book[i].getGenero() + "\t\t\t" + book[i].getPrecio() + "\n");
+            System.out.print("\nISBN: " + book[i].get_Isbn() + "\t\tTitulo: " + book[i].get_Titulo() + "\t\tAutor:" + book[i].get_Autor() + "\t\tGenero: " + book[i].get_Genero() + "\t\tPrecio: " + book[i].get_Precio() + "\n");
 
         }
 
@@ -157,12 +168,12 @@ public class Main {
             for(int j = 0; j < book.length; j++)
             {
 
-                if(book[i].getTitulo().compareToIgnoreCase(book[j].getTitulo()) < 0)
+                if(book[i].get_Titulo().compareToIgnoreCase(book[j].get_Titulo()) < 0)
                 {
 
                     aux = book[i];
                     book[i] = book[j];
-                    book[j] = book[i];
+                    book[j] = aux;
 
                 }
 
@@ -182,12 +193,12 @@ public class Main {
             for(int j = 0; j < book.length; j++)
             {
 
-                if(book[i].getAutor().compareToIgnoreCase(book[j].getAutor()) < 0)
+                if(book[i].get_Autor().compareToIgnoreCase(book[j].get_Autor()) < 0)
                 {
 
                     aux = book[i];
                     book[i] = book[j];
-                    book[j] = book[i];
+                    book[j] = aux;
 
                 }
 
@@ -197,7 +208,7 @@ public class Main {
 
     }
 
-    public static void ordenarGenero(Libros book[]){
+    public static void ordenarPrecio(Libros book[]){
 
         Libros aux;
 
@@ -207,12 +218,12 @@ public class Main {
             for(int j = 0; j < book.length; j++)
             {
 
-                if(book[i].getGenero().compareToIgnoreCase(book[j].getGenero()) < 0)
+                if(book[i].get_Precio() < book[j].get_Precio())
                 {
 
                     aux = book[i];
                     book[i] = book[j];
-                    book[j] = book[i];
+                    book[j] = aux;
 
                 }
 
@@ -249,7 +260,7 @@ public class Main {
                     
                     case 2:
     
-                        visualizarElementos(book);
+                        visualizarLibros(book);
                         break;
     
                     case 3:
@@ -274,15 +285,15 @@ public class Main {
                                 
                                 case 3:
 
-                                    ordenarGenero(book);
-                                    System.out.print("\n[!] Libros ordenados alfabeticamente por el género\n\n");
+                                    ordenarPrecio(book);
+                                    System.out.print("\n[!] Libros ordenados alfabeticamente por el precio\n\n");
                                     break;
                             
                                 default:
                                     break;
                             }
 
-                        } while (option == 4);
+                        } while (option != 4);
 
                         break;
                     
