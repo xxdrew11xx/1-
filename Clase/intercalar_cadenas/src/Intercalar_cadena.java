@@ -172,6 +172,7 @@ public class Intercalar_cadena {
                 case 2:
 
                     cadenainter = intercalar(cadena, cadena2);
+                    System.out.print("\n[!] Cadena intercalada...\n\n");
                     break;
 
                 case 3:
