@@ -92,7 +92,6 @@ public class Main {
 
             }
 
-            book[i].set_isbn(isbn);
 
             System.out.print("\n[+] Introduce el titulo del libro): ");
             book[i].set_titulo(sc.nextLine());
