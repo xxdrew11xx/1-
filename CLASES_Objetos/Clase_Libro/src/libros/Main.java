@@ -1,6 +1,5 @@
 package libros;
 
-
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -22,8 +21,20 @@ public class Main {
             System.out.println();
             System.out.print("[OPCION]----> ");
             
-            opcion = e.nextInt();
+            try
+            {
 
+                opcion = e.nextInt();
+
+            }
+            catch(InputMismatchException ime)
+            {
+
+                System.out.print("\n[!!] Error: " + ime.getMessage());
+                opcion = 0; 
+                break;
+
+            }
             if(opcion < 1 || opcion > 4)
             {
 
@@ -95,7 +106,7 @@ public class Main {
             
                     System.out.print("\n[!!] ERROR: " + ste.getMessage());
                     isbn = "XXX-XXX-XX-XXXX-X";
-                    System.out.print("\n[!] ISBN introducido invalido");
+                    System.out.print("\n[!] ISBN introducido invalido.\n");
 
                 }
 
