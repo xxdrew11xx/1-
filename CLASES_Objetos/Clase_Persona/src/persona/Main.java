@@ -452,7 +452,8 @@ public class Main {
                             option = menuOrdenar(sc);
                             sc.nextLine();
 
-                            switch (option) {
+                            switch (option) 
+                            {
                                 case 1:
                                     
                                     ordenarDueños(listaDuenos);
