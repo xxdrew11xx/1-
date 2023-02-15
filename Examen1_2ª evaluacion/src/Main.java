@@ -323,7 +323,7 @@ public class Main {
         
                                     cadena = convertircadena(cadena);
                                     break;
-        
+
                                 case 3:
     
                                     visualizarcad(cadena);
