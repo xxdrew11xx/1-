@@ -9,13 +9,12 @@ import java.util.Scanner;
 
 public class Main {
 
-    static int menuGeneral(Scanner sc){
+    static int menuGeneral(Scanner sc) {
 
         int opcion = 0;
 
-        do 
-        {
-                    
+        do {
+
             System.out.print("\n----------------------------MENÚ---------------------------- ");
             System.out.print("\n[1]---------> Crear ficheros hombre y/o mujeres");
             System.out.print("\n[2]---------> Crear fichero de hombre y mujeres");
@@ -25,447 +24,379 @@ public class Main {
             System.out.println("\n[6]---------> Exit");
             System.out.println();
             System.out.print("[OPCION]----> ");
-                
-            try
-            {
-    
+
+            try {
+
                 opcion = sc.nextInt();
 
-            }
-            catch(InputMismatchException ime)
-            {
-    
-                System.out.print("\n[!!] Error: " + ime.getMessage());
-                opcion = 0; 
-                break;
-    
-            }
-    
-            if(opcion < 1 || opcion > 6)
-            {
-    
-                System.out.print("\n[!!] OPCION NO VALIDA");
-    
-            }
-    
-        } 
-        while (opcion < 1 || opcion > 6);
-    
+            } catch (InputMismatchException ime) {
 
+                System.out.print("\n[!!] Error: " + ime.getMessage());
+                opcion = 0;
+                break;
+
+            }
+
+            if (opcion < 1 || opcion > 6) {
+
+                System.out.print("\n[!!] OPCION NO VALIDA");
+
+            }
+
+        } while (opcion < 1 || opcion > 6);
 
         return opcion;
     }
 
-    public static int menuOrdenar(Scanner sc){
+    public static int menuOrdenar(Scanner sc) {
 
         int opcion = 3;
 
-        do 
-        {
-                
+        do {
+
             System.out.print("\n----------------------------MENÚ---------------------------- ");
             System.out.print("\n[1]---------> Por nombre de la persona");
             System.out.print("\n[2]---------> Por nombre de la mascota");
             System.out.println("\n[3]---------> Vovler al menú principal");
             System.out.println();
             System.out.print("[OPCION]----> ");
-            
-            try
-            {
+
+            try {
 
                 opcion = sc.nextInt();
 
-            }
-            catch(InputMismatchException ime)
-            {
+            } catch (InputMismatchException ime) {
 
                 System.out.print("\n[!!] Error: " + ime.getMessage());
-                opcion = 0; 
+                opcion = 0;
                 break;
 
             }
 
-            if(opcion < 1 || opcion > 3)
-            {
+            if (opcion < 1 || opcion > 3) {
 
                 System.out.print("\n[!!] OPCION NO VALIDA");
 
             }
 
-        } 
-        while (opcion < 1 || opcion > 3);
+        } while (opcion < 1 || opcion > 3);
 
         return opcion;
 
     }
 
-    static void ficheroGenereal(File general, Scanner sc){
+    static void ficheroGenereal(File general, Scanner sc) {
 
         String nombre = "", sexo = "";
-        
-        
-        try 
-        {
+
+        try {
             BufferedWriter bw = new BufferedWriter(new FileWriter(general, true));
-                
-                do 
-                {
-        
-                    System.out.print("\n[+] Introduce el nombre de la persona [ Fin para salir]: ");
-                    nombre = sc.nextLine();
 
-                    if(nombre.length() <= 2)
-                    {
+            do {
 
-                        System.out.print("\n[!!] Nombre invalido, introducelo de nuevo\n");
+                System.out.print("\n[+] Introduce el nombre de la persona [ Fin para salir]: ");
+                nombre = sc.nextLine();
 
-                    }
-                    
-                } while (nombre.length() <= 2);
+                if (nombre.length() <= 2) {
 
-
-
-                while (!nombre.equalsIgnoreCase("Fin"))
-                {
-
-                    System.out.print("\n[+] Sexo [V -> varón || M -> Mujer]: ");
-                    sexo = sc.nextLine();
-
-                    bw.write(nombre);
-                    bw.newLine();
-                    bw.write(sexo.toUpperCase());
-                    bw.newLine();
-
-                    System.out.print("\n[+] Introduce el nombre de la persona [ Fin para salir]: ");
-                    nombre = sc.nextLine();
+                    System.out.print("\n[!!] Nombre invalido, introducelo de nuevo\n");
 
                 }
-            
+
+            } while (nombre.length() <= 2);
+
+            while (!nombre.equalsIgnoreCase("Fin")) {
+
+                System.out.print("\n[+] Sexo [V -> varón || M -> Mujer]: ");
+                sexo = sc.nextLine();
+
+                bw.write(nombre);
+                bw.newLine();
+                bw.write(sexo.toUpperCase());
+                bw.newLine();
+
+                System.out.print("\n[+] Introduce el nombre de la persona [ Fin para salir]: ");
+                nombre = sc.nextLine();
+
+            }
+
             bw.close();
 
-        } catch (InputMismatchException ime) 
-        {
+        } catch (InputMismatchException ime) {
 
             System.out.print("\n[!!] ERROR" + ime.getMessage() + "\n\n");
 
-        } catch (IOException ioe)
-        {
+        } catch (IOException ioe) {
 
             System.out.print("\n[!!] ERROR" + ioe.getMessage() + "\n\n");
 
-        }
-        
-
-    }    
-
-    static void escribirH(String nombre, String sexo, File file){
-
-        try 
-        {
-        
-            BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
-
-                bw.write(nombre);
-                bw.newLine();
-                bw.write(sexo);
-                bw.newLine();
-
-            bw.close();
-
-        } catch (IOException ioe) 
-        {
-        
-            System.out.print("\n[!!] ERROR" + ioe.getMessage() + "\n\n");
-        
         }
 
     }
 
-    static void escribirM(String nombre, String sexo, File file){
+    static void escribirH(String nombre, String sexo, File file) {
 
+        try {
 
-        try 
-        {
-        
             BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
 
-                bw.write(nombre);
-                bw.newLine();
-                bw.write(sexo);
-                bw.newLine();
+            bw.write(nombre);
+            bw.newLine();
+            bw.write(sexo);
+            bw.newLine();
 
             bw.close();
 
-        } catch (IOException ioe) 
-        {
-        
+        } catch (IOException ioe) {
+
             System.out.print("\n[!!] ERROR" + ioe.getMessage() + "\n\n");
-        
+
         }
 
     }
 
-    static int ficheroHM(File general, File hombre, File mujer, int cuenta){
+    static void escribirM(String nombre, String sexo, File file) {
+
+        try {
+
+            BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
+
+            bw.write(nombre);
+            bw.newLine();
+            bw.write(sexo);
+            bw.newLine();
+
+            bw.close();
+
+        } catch (IOException ioe) {
+
+            System.out.print("\n[!!] ERROR" + ioe.getMessage() + "\n\n");
+
+        }
+
+    }
+
+    static int ficheroHM(File general, File hombre, File mujer, int cuenta) {
 
         String nombre = "", sexo = "";
 
         hombre.delete();
         mujer.delete();
 
-        try 
-        {
+        try {
 
             BufferedReader br = new BufferedReader(new FileReader(general));
 
-                nombre = br.readLine();
+            nombre = br.readLine();
 
-                while(nombre != null)
-                {
+            while (nombre != null) {
 
-                    sexo = br.readLine();
+                sexo = br.readLine();
 
-                    if(sexo.charAt(0) == 'V')
-                    {
+                if (sexo.charAt(0) == 'V') {
 
-                        cuenta ++;
-                        escribirH(nombre, sexo, hombre);
+                    cuenta++;
+                    escribirH(nombre, sexo, hombre);
 
-                    }
-                    else if (sexo.charAt(0) == 'M')
-                    {
+                } else if (sexo.charAt(0) == 'M') {
 
-                        cuenta --;
-                        escribirM(nombre, sexo, mujer);
-
-                    }
-
-                    nombre = br.readLine();
+                    cuenta--;
+                    escribirM(nombre, sexo, mujer);
 
                 }
-               
+
+                nombre = br.readLine();
+
+            }
+
             br.close();
-            
-        } catch (IOException ioe) 
-        {
+
+        } catch (IOException ioe) {
 
             System.out.print("\n[!!] ERROR" + ioe.getMessage() + "\n\n");
-        
+
         }
 
         return cuenta;
     }
 
-    static void hombre(File hombre, File mujer, File pareja){
+    static void hombre(File hombre, File mujer, File pareja) {
 
         String nombreH = "", nombreM = "", sexoH = "", sexoM = "";
-        
-        
-        try
-        {
+
+        try {
             BufferedReader br = new BufferedReader(new FileReader(mujer));
 
-                BufferedReader br2 = new BufferedReader(new FileReader(hombre));
+            BufferedReader br2 = new BufferedReader(new FileReader(hombre));
 
-                    BufferedWriter bw = new BufferedWriter(new FileWriter(pareja, true));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(pareja, true));
 
-                        nombreM = br.readLine();
+            nombreM = br.readLine();
 
-                        while(nombreM != null)
-                        {
+            while (nombreM != null) {
 
-                            sexoM = br.readLine();
-                            nombreH = br2.readLine();
-                            sexoH = br.readLine();
+                sexoM = br.readLine();
+                nombreH = br2.readLine();
+                sexoH = br2.readLine();
 
-                            System.out.println(nombreM + "\t" + sexoM);
+                System.out.println(nombreM + "\t" + sexoM);
 
+                // bw.write(nombreH);
+                // bw.newLine();
+                // bw.write(sexoH);
+                // bw.newLine();
+                // bw.write(nombreM);
+                // bw.newLine();
+                // bw.write(sexoM);
+                // bw.newLine();
 
-                            // bw.write(nombreH);
-                            // bw.newLine();
-                            // bw.write(sexoH);
-                            // bw.newLine();
-                            // bw.write(nombreM);
-                            // bw.newLine();
-                            // bw.write(sexoM);
-                            // bw.newLine();
+                nombreM = br.readLine();
+            }
 
-                            nombreM = br.readLine();
-                        }
+            nombreH = br2.readLine();
 
-                        nombreH = br2.readLine();
+            while (nombreH != null) {
 
-                        while(nombreH != null)
-                        {
+                sexoH = br2.readLine();
 
-                            sexoH = br2.readLine();
+                bw.write(nombreH);
+                bw.newLine();
+                bw.write(sexoH);
+                bw.newLine();
 
-                            bw.write(nombreH);
-                            bw.newLine();
-                            bw.write(sexoH);
-                            bw.newLine();
+                nombreH = br2.readLine();
 
-                            nombreH = br2.readLine();
+            }
 
-                        }
+            bw.close();
 
-                    bw.close();
-
-                br2.close();
+            br2.close();
 
             br.close();
-        }
-        catch (IOException ioe)
-        {
+        } catch (IOException ioe) {
 
             System.out.print("\n[!!] ERROR" + ioe.getMessage() + "\n\n");
 
         }
 
-
-
     }
 
-    static void mujer(File hombre, File mujer, File pareja){
-
-        String nombreH = "", nombreM = "", sexoH = "", sexoM = "";
-        
-        
-        try
-        {
-            BufferedReader br = new BufferedReader(new FileReader(hombre));
-
-                BufferedReader br2 = new BufferedReader(new FileReader(mujer));
-
-                    BufferedWriter bw = new BufferedWriter(new FileWriter(pareja, true));
-
-                        nombreH = br.readLine();
-
-                        while(nombreM != null)
-                        {
-
-                            sexoH = br.readLine();
-                            nombreM = br2.readLine();
-                            sexoM = br.readLine();
-
-                         
-                            bw.write(nombreH);
-                            bw.newLine();
-                            bw.write(sexoH);
-                            bw.newLine();   
-                            bw.write(nombreM);
-                            bw.newLine();
-                            bw.write(sexoM);
-                            bw.newLine();
-                            
-
-                            nombreM = br.readLine();
-
-                        }
-
-                        nombreM = br2.readLine();
-
-                        while(nombreM != null)
-                        {
-
-                            sexoM = br2.readLine();
-
-                            bw.write(nombreM);
-                            bw.newLine();
-                            bw.write(sexoM);
-                            bw.newLine();
-
-                            nombreM = br2.readLine();
-
-                        }
-
-                    bw.close();
-
-                br2.close();
-
-            br.close();
-        }
-        catch (IOException ioe)
-        {
-
-            System.out.print("\n[!!] ERROR" + ioe.getMessage() + "\n\n");
-
-        }
-
-
-
-    }
-
-    static void igual(File hombre, File mujer, File pareja){
+    static void mujer(File hombre, File mujer, File pareja) {
 
         String nombreH = "", nombreM = "", sexoH = "", sexoM = "";
 
-        try
-        {
+        try {
             BufferedReader br = new BufferedReader(new FileReader(hombre));
 
-                BufferedReader br2 = new BufferedReader(new FileReader(mujer));
+            BufferedReader br2 = new BufferedReader(new FileReader(mujer));
 
-                    BufferedWriter bw = new BufferedWriter(new FileWriter(pareja, true));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(pareja, true));
 
-                        nombreM = br.readLine();
+            nombreH = br.readLine();
 
-                        while(nombreM != null)
-                        {
+            while (nombreH != null) {
 
-                            sexoM = br.readLine();
-                            nombreM = br2.readLine();
-                            sexoH = br.readLine();
+                sexoH = br.readLine();
+                nombreM = br2.readLine();
+                sexoM = br2.readLine();
 
+                bw.write(nombreH);
+                bw.newLine();
+                bw.write(sexoH);
+                bw.newLine();
+                bw.write(nombreM);
+                bw.newLine();
+                bw.write(sexoM);
+                bw.newLine();
 
-                            bw.write(nombreM);
-                            bw.newLine();
-                            bw.write(sexoM);
-                            bw.newLine();
-                            bw.write(nombreH);
-                            bw.newLine();
-                            bw.write(sexoH);
-                            bw.newLine();
-                            
+                nombreH = br.readLine();
 
-                            nombreH = br.readLine();
+            }
 
-                        }
+            nombreM = br2.readLine();
 
+            while (nombreM != null) {
 
-                    bw.close();
+                sexoM = br2.readLine();
 
-                br2.close();
+                bw.write(nombreM);
+                bw.newLine();
+                bw.write(sexoM);
+                bw.newLine();
+
+                nombreM = br2.readLine();
+
+            }
+
+            bw.close();
+
+            br2.close();
 
             br.close();
-        }
-        catch (IOException ioe)
-        {
+        } catch (IOException ioe) {
 
             System.out.print("\n[!!] ERROR" + ioe.getMessage() + "\n\n");
 
         }
 
+    }
+
+    static void igual(File hombre, File mujer, File pareja) {
+
+        String nombreH = "", nombreM = "", sexoH = "", sexoM = "";
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(hombre));
+
+            BufferedReader br2 = new BufferedReader(new FileReader(mujer));
+
+            BufferedWriter bw = new BufferedWriter(new FileWriter(pareja, true));
+
+            nombreM = br.readLine();
+
+            while (nombreM != null) {
+
+                sexoM = br.readLine();
+                nombreM = br2.readLine();
+                sexoH = br.readLine();
+
+                bw.write(nombreM);
+                bw.newLine();
+                bw.write(sexoM);
+                bw.newLine();
+                bw.write(nombreH);
+                bw.newLine();
+                bw.write(sexoH);
+                bw.newLine();
+
+                nombreH = br.readLine();
+
+            }
+
+            bw.close();
+
+            br2.close();
+
+            br.close();
+        } catch (IOException ioe) {
+
+            System.out.print("\n[!!] ERROR" + ioe.getMessage() + "\n\n");
+
+        }
 
     }
 
+    static void crearparejas(File hombre, File mujer, File pareja, int cuenta) {
 
-    static void crearparejas(File hombre, File mujer, File pareja, int cuenta){
-
-
-        if(cuenta >= 1)
-        {
+        if (cuenta >= 1) {
 
             hombre(hombre, mujer, pareja);
 
-        }
-        else if(cuenta <= -1)
-        {
+        } else if (cuenta <= -1) {
 
             mujer(hombre, mujer, pareja);
 
-        }
-        else if (cuenta == 0)
-        {
+        } else if (cuenta == 0) {
 
             igual(hombre, mujer, pareja);
 
@@ -473,13 +404,12 @@ public class Main {
 
     }
 
-    static int visualizar(Scanner sc){
+    static int visualizar(Scanner sc) {
 
         int option;
 
-        do 
-        {
-                    
+        do {
+
             System.out.print("\n----------------------------MENÚ---------------------------- ");
             System.out.print("\n[1]---------> Visualizar fichero general");
             System.out.print("\n[2]---------> Visualizar fichero hombres");
@@ -488,67 +418,57 @@ public class Main {
             System.out.println("\n[5]---------> Exit");
             System.out.println();
             System.out.print("[OPCION]----> ");
-                
-            try
-            {
-    
+
+            try {
+
                 option = sc.nextInt();
 
-            }
-            catch(InputMismatchException ime)
-            {
-    
+            } catch (InputMismatchException ime) {
+
                 System.out.print("\n[!!] Error: " + ime.getMessage());
-                option = 0; 
+                option = 0;
                 break;
-    
+
             }
-    
-            if(option < 1 || option > 5)
-            {
-    
+
+            if (option < 1 || option > 5) {
+
                 System.out.print("\n[!!] OPCION NO VALIDA");
-    
+
             }
-    
-        } 
-        while (option < 1 || option > 5);
+
+        } while (option < 1 || option > 5);
 
         return option;
 
     }
 
-    static void visualizarGeneral(File file){
+    static void visualizarGeneral(File file) {
 
         String nombre = "", sexo = "";
 
-        try 
-        {
+        try {
 
             BufferedReader br = new BufferedReader(new FileReader(file));
 
-                System.out.print("\n----------------------------Fichero General----------------------------");
+            System.out.print("\n----------------------------Fichero General----------------------------");
+
+            nombre = br.readLine();
+
+            while (nombre != null) {
+
+                sexo = br.readLine();
+
+                System.out.print("\n" + nombre + "\t" + sexo);
 
                 nombre = br.readLine();
 
-                while(nombre != null)
-                {
-
-                    sexo = br.readLine();
-
-                    System.out.print("\n" + nombre + "\t" + sexo);
-
-                    nombre = br.readLine();
-
-                }
-
+            }
 
             br.close();
 
-            
-        } catch (IOException ioe) 
-        {
-        
+        } catch (IOException ioe) {
+
             System.out.print("\n[!!] Error: " + ioe.getMessage());
 
         }
@@ -556,24 +476,21 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
-        
+
         int opcion, option, cuenta = 0;
 
-        File general = new File("/home/drew/DAM/Programcion_clase/Ficheros/Parejas/file/general.txt");   
-        File hombres = new File("/home/drew/DAM/Programcion_clase/Ficheros/Parejas/file/hombres.txt");          
+        File general = new File("/home/drew/DAM/Programcion_clase/Ficheros/Parejas/file/general.txt");
+        File hombres = new File("/home/drew/DAM/Programcion_clase/Ficheros/Parejas/file/hombres.txt");
         File mujeres = new File("/home/drew/DAM/Programcion_clase/Ficheros/Parejas/file/mujeres.txt");
         File parejas = new File("/home/drew/DAM/Programcion_clase/Ficheros/Parejas/file/parejas.txt");
 
         Scanner sc = new Scanner(System.in);
 
-
-        do 
-        {
+        do {
             opcion = menuGeneral(sc);
             sc.nextLine();
 
-            switch(opcion)
-            {
+            switch (opcion) {
 
                 case 1:
 
@@ -594,82 +511,72 @@ public class Main {
 
                 case 4:
 
-                    do
-                    {
+                    do {
                         option = visualizar(sc);
                         sc.nextLine();
 
-                        switch (option)
-                        {
+                        switch (option) {
 
-                            case 1: 
+                            case 1:
 
                                 visualizarGeneral(general);
                                 break;
 
-                            case 2: 
-                            
+                            case 2:
+
                                 visualizarGeneral(hombres);
                                 break;
 
-                            case 3: 
-                                
+                            case 3:
+
                                 visualizarGeneral(mujeres);
                                 break;
 
-                            case 4: 
+                            case 4:
 
                                 visualizarGeneral(parejas);
                                 break;
 
                             default:
-                                
+
                                 break;
 
                         }
 
-                    }while(option != 5);
+                    } while (option != 5);
 
                     break;
 
                 case 5:
 
-                    do
-                    {
+                    do {
 
                         option = menuOrdenar(sc);
                         sc.nextLine();
 
-                        switch (option) 
-                        {
+                        switch (option) {
                             case 1:
-                                
-                                
+
                                 break;
 
                             case 2:
 
-
                                 break;
-                        
+
                             default:
                                 break;
                         }
 
-
-                    }while(option != 3);
+                    } while (option != 3);
                     break;
 
                 default:
 
                     break;
 
-
             }
 
-            
         } while (opcion != 6);
-
 
         sc.close();
     }
