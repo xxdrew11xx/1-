@@ -13,3 +13,8 @@ Pintura
 B
 15
 2
+AAAAAA
+Taladros
+A
+10.10
+2

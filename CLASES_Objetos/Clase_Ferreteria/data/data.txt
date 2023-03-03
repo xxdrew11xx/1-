@@ -1,0 +1,10 @@
+CCCCCC
+Caladora
+C
+50
+1
+CCCCCC
+Cubetas
+C
+7.57
+4

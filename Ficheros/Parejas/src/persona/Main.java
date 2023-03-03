@@ -577,8 +577,7 @@ public class Main {
 
             br.close();
 
-        } catch (IOException ioe) 
-        {
+        } catch (IOException ioe) {
 
             System.out.print("\n[!!] Error: " + ioe.getMessage());
 
@@ -586,46 +585,40 @@ public class Main {
 
     }
 
-    static int total(File general){
+    static int total(File general) {
 
         int cuenta = 0;
         String nombre = "";
 
-        try 
-        {
-        
+        try {
+
             BufferedReader br = new BufferedReader(new FileReader(general));
+
+            nombre = br.readLine();
+
+            while (nombre != null) {
+
+                br.readLine();
+
+                cuenta++;
 
                 nombre = br.readLine();
 
-                while(nombre != null)
-                {
-
-                    br.readLine();
-
-                    cuenta ++;
-
-                    nombre = br.readLine();
-
-                }
+            }
 
             br.close();
 
-
-        } 
-        catch (IOException ioe) 
-        {
+        } catch (IOException ioe) {
 
             System.out.print("\n[!!] Error: " + ioe.getMessage());
 
         }
-
 
         return cuenta;
 
     }
 
-    static void ordenarNombre(File genereal){
+    static void ordenarNombre(File genereal) {
 
         int cuenta = total(genereal);
 
@@ -635,44 +628,36 @@ public class Main {
 
         persona personas[] = new persona[cuenta];
 
-        try 
-        {
+        try {
 
             BufferedReader br = new BufferedReader(new FileReader(genereal));
 
-                for(int i = 0; i < cuenta; i++)
-                {   
+            for (int i = 0; i < cuenta; i++) {
 
-                    nombre = br.readLine();
-                    sexo = br.readLine();
+                nombre = br.readLine();
+                sexo = br.readLine();
 
-                    personas[i] = new persona(nombre, sexo);
+                personas[i] = new persona(nombre, sexo);
 
-
-                }
+            }
 
             br.close();
-            
-        } catch (IOException ioe)   
-        {
+
+        } catch (IOException ioe) {
 
             System.out.print("\n[!!] Error: " + ioe.getMessage());
 
         }
 
-        for(int i = 0; i < cuenta; i++)
-        {
+        for (int i = 0; i < cuenta; i++) {
 
-            for( int j = 0; j < cuenta; j ++)
-            {
+            for (int j = 0; j < cuenta; j++) {
 
-                if(personas[i].getNombre().compareToIgnoreCase(personas[j].getNombre()) < 0)
-                {
+                if (personas[i].getNombre().compareToIgnoreCase(personas[j].getNombre()) < 0) {
 
                     aux = personas[i];
                     personas[i] = personas[j];
                     personas[j] = aux;
-
 
                 }
 
@@ -681,26 +666,22 @@ public class Main {
 
         genereal.delete();
 
-        try
-        {
+        try {
 
             BufferedWriter bw = new BufferedWriter(new FileWriter(genereal));
 
-                for(int i = 0; i < cuenta; i++)
-                {
+            for (int i = 0; i < cuenta; i++) {
 
-                    bw.write(personas[i].getNombre());
-                    bw.newLine();
-                    bw.write(personas[i].getSexo());
-                    bw.newLine();
+                bw.write(personas[i].getNombre());
+                bw.newLine();
+                bw.write(personas[i].getSexo());
+                bw.newLine();
 
-                }
+            }
 
             bw.close();
 
-        }
-        catch(IOException ioe)
-        {
+        } catch (IOException ioe) {
 
             System.out.print("\n[!!] Error: " + ioe.getMessage());
 
@@ -708,10 +689,9 @@ public class Main {
 
         System.out.print("\n[!] Fichero general ordenado por nombre");
 
+    }
 
-    }    
-
-    static void ordenarSexo(File genereal){
+    static void ordenarSexo(File genereal) {
 
         int cuenta = total(genereal);
 
@@ -721,43 +701,36 @@ public class Main {
 
         persona personas[] = new persona[cuenta];
 
-        try 
-        {
+        try {
 
             BufferedReader br = new BufferedReader(new FileReader(genereal));
 
-                for(int i = 0; i < cuenta; i++)
-                {   
+            for (int i = 0; i < cuenta; i++) {
 
-                    nombre = br.readLine();
-                    sexo = br.readLine();
+                nombre = br.readLine();
+                sexo = br.readLine();
 
-                    personas[i] = new persona(nombre, sexo);
+                personas[i] = new persona(nombre, sexo);
 
-                }
+            }
 
             br.close();
-            
-        } catch (IOException ioe)   
-        {
+
+        } catch (IOException ioe) {
 
             System.out.print("\n[!!] Error: " + ioe.getMessage());
 
         }
 
-        for(int i = 0; i < cuenta; i++)
-        {
+        for (int i = 0; i < cuenta; i++) {
 
-            for( int j = 0; j < cuenta; j ++)
-            {
+            for (int j = 0; j < cuenta; j++) {
 
-                if(personas[i].getSexo().compareToIgnoreCase(personas[j].getSexo()) < 0)
-                {
+                if (personas[i].getSexo().compareToIgnoreCase(personas[j].getSexo()) < 0) {
 
                     aux = personas[i];
                     personas[i] = personas[j];
                     personas[j] = aux;
-
 
                 }
 
@@ -766,26 +739,22 @@ public class Main {
 
         genereal.delete();
 
-        try
-        {
+        try {
 
             BufferedWriter bw = new BufferedWriter(new FileWriter(genereal));
 
-                for(int i = 0; i < cuenta; i++)
-                {
+            for (int i = 0; i < cuenta; i++) {
 
-                    bw.write(personas[i].getNombre());
-                    bw.newLine();
-                    bw.write(personas[i].getSexo());
-                    bw.newLine();
+                bw.write(personas[i].getNombre());
+                bw.newLine();
+                bw.write(personas[i].getSexo());
+                bw.newLine();
 
-                }
+            }
 
             bw.close();
 
-        }
-        catch(IOException ioe)
-        {
+        } catch (IOException ioe) {
 
             System.out.print("\n[!!] Error: " + ioe.getMessage());
 
@@ -793,8 +762,7 @@ public class Main {
 
         System.out.print("\n[!] Fichero general ordenado por sexo");
 
-    } 
-
+    }
 
     public static void main(String[] args) throws Exception {
 
@@ -883,11 +851,13 @@ public class Main {
                             case 1:
 
                                 ordenarNombre(general);
+                                System.out.println();
                                 break;
 
                             case 2:
 
                                 ordenarSexo(general);
+                                System.out.println();
                                 break;
 
                             default:

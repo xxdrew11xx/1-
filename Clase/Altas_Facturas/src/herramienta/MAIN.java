@@ -1,3 +1,4 @@
+package herramienta;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -7,7 +8,7 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Altas_Facturas {
+public class MAIN {
 
     static int menu(Scanner e){
 
@@ -17,10 +18,11 @@ public class Altas_Facturas {
         {
                 
             System.out.print("\n----------------------------MENU---------------------------- ");
-            System.out.print("\n[1]---------> Crear Fichero");
+            System.out.print("\n[1]---------> Altas");
             System.out.print("\n[2]---------> Factura");
-            System.out.print("\n[5]---------> Eliminar Fichero");
-            System.out.println("\n[4]---------> Exit");
+            System.out.print("\n[3]---------> Modificaciones");
+            System.out.print("\n[4]---------> Eliminar Fichero");
+            System.out.println("\n[5]---------> Exit");
             System.out.println();
             System.out.print("[OPCION]----> ");
             
