@@ -108,27 +108,27 @@ public class Main {
                 System.out.print("\n[+] Precio (EJ: 10.10): ");
                 precio = sc.nextLine();
                 
-                // while (precio == "");
-                // {
+                while (precio == "")
+                {
                 
-                //     try
-                //     {
+                    try
+                    {
 
-                //         precio = sc.nextLine();
+                        precio = sc.nextLine();
 
-                //     }
-                //     catch(NumberFormatException nme)
-                //     {
+                    }
+                    catch(NumberFormatException nme)
+                    {
 
-                //         System.out.print("\n[!!] Error: " + nme.getMessage() + "\n\n");
-                //         precio = "";
-                //         break;
+                        System.out.print("\n[!!] Error: " + nme.getMessage() + "\n\n");
+                        precio = "";
+                        break;
 
-                //     }
+                    }
 
-                //     System.out.print("\n[+] Precio (EJ: 10.10): ");
+                    System.out.print("\n[+] Precio (EJ: 10.10): ");
 
-                // } 
+                } 
 
                 bw.write(precio);
                 bw.newLine();
@@ -246,7 +246,7 @@ public class Main {
                 else
                 {
 
-                    System.out.print("\n" + codigo + "\t\t" + denominacion + "\t\t" + tipo + "\t\t" + unidades + "\t\t" + precio + "\t\t" + formato.format(iva) + "\t" + formato.format(total) );
+                    System.out.print("\n" + codigo + "\t\t" + denominacion + "\t\t" + tipo + "\t\t" + unidades + "\t\t" + precio + "\t\t" + formato.format(iva) + "\t\t" + formato.format(total) );
 
                 }   
 
@@ -327,22 +327,22 @@ public class Main {
 
 
         if(factura[option].getDenominacion().length() < 8)
-                {
+        {
 
-                    System.out.print("\n" + factura[option].getCodProc() + "\t\t" + factura[option].getDenominacion() + "\t\t\t" + factura[option].getTipos() + "\t\t" + factura[option].getUnidades() + "\t\t" + factura[option].getPrecio());
-                }
-                else if(factura[option].getDenominacion().length() >= 8 )
-                {
+            System.out.print("\n" + factura[option].getCodProc() + "\t\t" + factura[option].getDenominacion() + "\t\t\t" + factura[option].getTipos() + "\t\t" + factura[option].getUnidades() + "\t\t" + factura[option].getPrecio());
+        }
+        else if(factura[option].getDenominacion().length() >= 8 )
+        {
 
-                    System.out.print("\n" + factura[option].getCodProc() + "\t\t" + factura[option].getDenominacion() + "\t\t" + factura[option].getTipos() + "\t\t" + factura[option].getUnidades() + "\t\t" + factura[option].getPrecio()) ;
+            System.out.print("\n" + factura[option].getCodProc() + "\t\t" + factura[option].getDenominacion() + "\t\t" + factura[option].getTipos() + "\t\t" + factura[option].getUnidades() + "\t\t\t" + factura[option].getPrecio()) ;
 
-                }
-                else
-                {
+        }
+        else
+        {
 
-                    System.out.print("\n" + factura[option].getCodProc() + "\t\t" + factura[option].getDenominacion() + "\t\t" + factura[option].getTipos() + "\t\t" + factura[option].getUnidades() + "\t\t" + factura[option].getPrecio());
+            System.out.print("\n" + factura[option].getCodProc() + "\t\t" + factura[option].getDenominacion() + "\t\t" + factura[option].getTipos() + "\t\t" + factura[option].getUnidades() + "\t\t" + factura[option].getPrecio());
 
-                }   
+        }   
 
     }
 
@@ -352,7 +352,7 @@ public class Main {
 
         String codigo = "", denominacion = "", tipo = "", unidades = "", precio = "", opcion = "s", nuevoCampo = "", confir = "";
 
-        boolean conf = true;
+        boolean conf = false;
 
         herramienta factura[] = new herramienta[cuenta];
 
@@ -488,6 +488,12 @@ public class Main {
                                     conf = true;
 
                                 }
+                                else 
+                                {
+
+                                    conf = false;
+
+                                }
 
                             
                             } while (conf == false);
@@ -518,109 +524,138 @@ public class Main {
                                 conf = true;
 
                             }
+                            else 
+                            {
 
+                                conf = false;
+
+                            }
                             
                         } while (conf == false);
 
                         factura[option] = new herramienta(codigo, nuevoCampo, tipo, precio, unidades);
 
-                        break;
+                            break;
                     
                         case 3:
 
-                        do 
-                        {
                             do 
                             {
-                                System.out.print("\n[+] Nuevo tipo del producto (A | B | C): ");
-                                nuevoCampo = sc.nextLine();
-                                nuevoCampo.toUpperCase();
+                                do 
+                                {
+                                    System.out.print("\n[+] Nuevo tipo del producto (A | B | C): ");
+                                    nuevoCampo = sc.nextLine();
+                                    nuevoCampo.toUpperCase();
                             
-                            } while ( nuevoCampo == "A" || nuevoCampo == "B" || nuevoCampo ==  "C");
+                                } while ( nuevoCampo == "A" || nuevoCampo == "B" || nuevoCampo ==  "C");
 
-                            System.out.print("\n[?] Confirmar cambios (S || N): ");
-                            confir = sc.nextLine().toUpperCase();
+                                System.out.print("\n[?] Confirmar cambios (S || N): ");
+                                confir = sc.nextLine().toUpperCase();
 
-                            if(confir.charAt(0) == 'S' )
-                            {
-                                conf = true;
-                            }
+                                if(confir.charAt(0) == 'S' )
+                                {
+
+                                    conf = true;
+
+                                }
+                                else 
+                                {
+
+                                    conf = false;
+
+                                }
                         
-                        } while (conf == false);
-                        factura[option] = new herramienta(codigo, denominacion, nuevoCampo, precio, unidades);
+                            } while (conf == false);
+                            factura[option] = new herramienta(codigo, denominacion, nuevoCampo, precio, unidades);
                         
-                        break;
+                            break;
 
                         case 4:
 
-                        do 
-                        {
-                            do
-                        {
-                            System.out.print("\n[+] Nuevas unidades del producto: ");
-                            try 
+                            do 
                             {
+                                do
+                                {
+                                    System.out.print("\n[+] Nuevas unidades del producto: ");
+                                    try 
+                                    {
 
-                                nuevoCampoInt = sc.nextInt();
+                                        nuevoCampoInt = sc.nextInt();
                                 
-                            } catch (InputMismatchException ime) 
-                            {
+                                    } catch (InputMismatchException ime) 
+                                    {
                                 
-                                System.out.print("\n[!!] ERROR " + ime.getLocalizedMessage() + "\n\n");
-                                nuevoCampoInt = 0;
-                                break;
+                                        System.out.print("\n[!!] ERROR " + ime.getLocalizedMessage() + "\n\n");
+                                        nuevoCampoInt = 0;
+                                        break;
 
-                            }
-                            }while(nuevoCampoInt == 0);
+                                    }
+                                }while(nuevoCampoInt == 0);
 
-                            System.out.print("\n[?] Confirmar cambios (S || N): ");
-                            confir = sc.nextLine().toUpperCase();
+                                System.out.print("\n[?] Confirmar cambios (S || N): ");
+                                confir = sc.nextLine().toUpperCase();
 
-                            if(confir.charAt(0) == 'S' )
-                            {
-                                conf = true;
-                            }
+                                if(confir.charAt(0) == 'S' )
+                                {
+
+                                    conf = true;
+                           
+                                }
+                                else 
+                                {
+
+                                    conf = false;
+
+                                }
                         
-                        } while (conf == false);
+                            } while (conf == false);
 
-                        factura[option] = new herramienta(codigo, denominacion, tipo, precio, nuevoCampo);
+                            factura[option] = new herramienta(codigo, denominacion, tipo, precio, nuevoCampo);
                          
-                        break;
+                            break;
 
                         case 5:
 
-                        do 
-                        {
-                            do
+                            do 
                             {
-                                System.out.print("\n[+] Nuevao precio del producto: ");
-                                try 
+                                do
+                                {
+                                    System.out.print("\n[+] Nuevao precio del producto: ");
+                                    try 
+                                    {
+
+                                        nuevoCampoInt = sc.nextInt();
+                            
+                                    } catch (InputMismatchException ime) 
+                                    {
+                            
+                                        System.out.print("\n[!!] ERROR " + ime.getLocalizedMessage() + "\n\n");
+                                        nuevoCampoInt = 0;
+                                        break;
+
+                                    }
+
+                                }while(nuevoCampoInt == 0);
+
+                                System.out.print("\n[?] Confirmar cambios (S || N): ");
+                                confir = sc.nextLine().toUpperCase();
+
+                                if(confir.charAt(0) == 'S' )
+                                {
+                                    conf = true;
+                                }
+                                else 
                                 {
 
-                                    nuevoCampoInt = sc.nextInt();
-                            
-                                } catch (InputMismatchException ime) 
-                                {
-                            
-                                    System.out.print("\n[!!] ERROR " + ime.getLocalizedMessage() + "\n\n");
-                                    nuevoCampoInt = 0;
-                                    break;
+                                 conf = false;
 
                                 }
-                            }while(nuevoCampoInt == 0);
-
-                            System.out.print("\n[?] Confirmar cambios (S || N): ");
-                            confir = sc.nextLine().toUpperCase();
-
-                            if(confir.charAt(0) == 'S' )
-                            {
-                                conf = true;
-                            }
                         
-                        } while (conf == false);
-                        factura[option] = new herramienta(codigo, denominacion, tipo, nuevoCampo, unidades);
+                            } while (conf == false);
+
+                            factura[option] = new herramienta(codigo, denominacion, tipo, nuevoCampo, unidades);
                         
-                        break;
+                            break;
                 
                         default:
 
