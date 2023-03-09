@@ -131,7 +131,18 @@ public class Main {
 
     static void visualizarcad(String cadena){
 
-        System.out.print("\n[!] La cadena es: " + cadena + "\n\n");
+        if(cadena.equals(""))
+        {
+
+            System.out.print("\n[!] La cadena está vacia....\n\n");
+
+        }
+        else
+        {
+
+            System.out.print("\n[!] La cadena es: " + cadena + "\n\n");
+
+        }
 
     }
 
