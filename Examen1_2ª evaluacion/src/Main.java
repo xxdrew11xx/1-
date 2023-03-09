@@ -257,7 +257,7 @@ public class Main {
         for(int i = 0; i < arr.length; i++)
         {
 
-            for(int j = 0; j < arr[i].length() - 1; j++)
+            for(int j = 0; j < arr[i].length(); j++)
             {
 
                 if(arr[i].charAt(j) == letra.charAt(0))
