@@ -767,7 +767,7 @@ public class Main {
 
         Scanner sc = new Scanner(System.in);
 
-        opsw(op, opt, opc, opo, frases, data, arr, sc);
+            opsw(op, opt, opc, opo, frases, data, arr, sc);
 
         sc.close();
 
