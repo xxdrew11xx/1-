@@ -625,11 +625,138 @@ public class Main {
 
     }
 
+    static void opsw(int op, int opt, int opc, int opo, String[] frases, File data, persona arr[], Scanner sc){
 
+        do 
+        {
+
+            op = menGen(sc);
+            sc.nextLine();
+
+            switch(op)
+            {
+
+                case 1:
+
+                    do 
+                    {
+
+                        opt = menuEj1(sc);
+                        sc.nextLine();
+
+                        switch (opt) {
+                            case 1:
+
+                                frases = llenado(frases, sc);    
+                                break;
+
+                            case 2:
+
+                                visualizado(frases);
+                                break;
+
+                            case 3:
+
+                                segunchar(frases, sc);
+                                break;
+
+                            case 4:
+
+                                frasemasvoc(frases);
+                                break;
+
+                            case 5: 
+
+                                sumdig(frases, sc);
+                                break;
+                        
+                            default:
+                                fin();
+                                break;
+                        }
+
+
+                    
+                    } while (opt != 6);
+
+                    break;
+
+                case 2:
+                    
+                    do 
+                    {
+
+                        opc = menuEj2(sc);
+                        sc.nextLine();
+
+                        
+
+                        switch (opc) {
+                            case 1:
+                                
+                                altas(sc, data);
+                                break;
+
+                            case 2:
+
+                                vislist(data);
+                                break;
+
+                            case 3:
+
+                                arr = llenarArr(data, arr); 
+
+                                do 
+                                {
+
+                                    opo = menuOrd(sc);
+                                    sc.nextLine();
+
+                                    switch (opo) {
+                                        case 1:
+
+                                            arr = ordName(arr, data);
+                                            devData(data, arr);
+                                            System.out.print("\n[!]Fichero ordenado.....");
+                                            break;
+                                        
+                                        case 2:
+
+                                            arr = ordImp(arr, data);
+                                            devData(data, arr);
+                                            System.out.print("\n[!]Fichero ordenado.....");
+                                            break;
+                                    
+                                        default:
+                                            break;
+                                    }
+                                    
+                                } while (opo != 3);
+                        
+                            default:
+                                
+                                System.out.print("\n[!] Volviendo al menú general....\n\n");
+                                break;
+                        }
+                        
+                    } while (opc != 4);
+                    break;
+
+                default:
+                    
+                    fin();
+                    break;
+
+            }
+        
+        } while (op != 3);
+
+
+    }
     
     public static void main(String[] args) throws Exception {
 
-        int op, opt, opc, opo;
+        int op = 0, opt = 0, opc = 0, opo = 0;
 
         String frases[] = new String[3];
 
@@ -640,129 +767,7 @@ public class Main {
 
         Scanner sc = new Scanner(System.in);
 
-            do 
-            {
-
-                op = menGen(sc);
-                sc.nextLine();
-
-                switch(op)
-                {
-
-                    case 1:
-
-                        do 
-                        {
-
-                            opt = menuEj1(sc);
-                            sc.nextLine();
-
-                            switch (opt) {
-                                case 1:
-
-                                    frases = llenado(frases, sc);    
-                                    break;
-
-                                case 2:
-
-                                    visualizado(frases);
-                                    break;
-
-                                case 3:
-
-                                    segunchar(frases, sc);
-                                    break;
-
-                                case 4:
-
-                                    frasemasvoc(frases);
-                                    break;
-
-                                case 5: 
-
-                                    sumdig(frases, sc);
-                                    break;
-                            
-                                default:
-                                    fin();
-                                    break;
-                            }
-
-
-                        
-                        } while (opt != 6);
-
-                        break;
-
-                    case 2:
-                        
-                        do 
-                        {
-
-                            opc = menuEj2(sc);
-                            sc.nextLine();
-
-                            
-
-                            switch (opc) {
-                                case 1:
-                                    
-                                    altas(sc, data);
-                                    break;
-
-                                case 2:
-
-                                    vislist(data);
-                                    break;
-
-                                case 3:
-
-                                    arr = llenarArr(data, arr); 
-
-                                    do 
-                                    {
-
-                                        opo = menuOrd(sc);
-                                        sc.nextLine();
-
-                                        switch (opo) {
-                                            case 1:
-
-                                                arr = ordName(arr, data);
-                                                devData(data, arr);
-                                                System.out.print("\n[!]Fichero ordenado.....");
-                                                break;
-                                            
-                                            case 2:
-
-                                                arr = ordImp(arr, data);
-                                                devData(data, arr);
-                                                System.out.print("\n[!]Fichero ordenado.....");
-                                                break;
-                                        
-                                            default:
-                                                break;
-                                        }
-                                        
-                                    } while (opo != 3);
-                            
-                                default:
-                                    
-                                    System.out.print("\n[!] Volviendo al menú general....\n\n");
-                                    break;
-                            }
-                            
-                        } while (opc != 4);
-                        break;
-
-                    default:
-                        
-                        fin();
-                        break;
-
-                }
-            
-            } while (op != 3);
+        opsw(op, opt, opc, opo, frases, data, arr, sc);
 
         sc.close();
 
