@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -307,7 +308,7 @@ public class Main {
     static void altas(Scanner sc, File data){
 
         String name = "", imps = "";
-        float imp;
+        Float imp = (float) 0.00;
         
         try 
         {
@@ -340,23 +341,22 @@ public class Main {
                     {
                         try 
                         {
+                            
 
                             System.out.print("\n[+] Introduce el importe formato(#,##): ");
-                            imp = sc.nextInt();
+                            imp = sc.nextFloat();
+
 
                         } catch (InputMismatchException ime)
                         {
                         
                             System.out.print("\n[!!] Error: " + ime.getMessage());
-                            imp = Integer.MAX_VALUE;
+                            imp = Float.MAX_VALUE;
                             break;
 
                         }
                     
-                    } while (imp == Integer.MAX_VALUE );
-
-                    sc.nextLine();
-
+                    }while (imp == Float.MAX_VALUE);
 
                     imps = String.valueOf(imp);
 
@@ -364,6 +364,8 @@ public class Main {
                     bw.newLine();
                     bw.write(imps);
                     bw.newLine();
+
+                    sc.nextLine();
 
                     do 
                     {
@@ -395,6 +397,8 @@ public class Main {
 
         String name = "", imp = "";
 
+        float cuenta = (float) 0;
+
         System.out.println("\n\t\tListado general");
         System.out.println("\t\t===============");
 
@@ -416,6 +420,7 @@ public class Main {
                 {
 
                     imp = br.readLine();
+                    cuenta += Float.parseFloat(imp);
 
                     System.out.println(name + "\t" + imp);
 
@@ -433,37 +438,39 @@ public class Main {
 
         }
 
+        System.out.print("\n\n[!]El total de importes es: " + cuenta + "\n");
+
     }
 
-    static int menuOrd(Scanner sc){
+    static String menuOrd(Scanner sc){
 
-        int opcion;
+        String opcion = "";
 
         do 
         {
                 
             System.out.print("\n----------------------------MENÚ---------------------------- ");
-            System.out.print("\n[1]---------> Ordenar por nombre");
-            System.out.print("\n[2]---------> Ordenar por importe");
-            System.out.println("\n[3]---------> Volver al menu general");
+            System.out.print("\n[N]---------> Ordenar por nombre");
+            System.out.print("\n[I]---------> Ordenar por importe");
+            System.out.println("\n[V]---------> Volver al menu general");
             System.out.println();
             System.out.print("[OPCION]----> ");
             
             try
             {
 
-                opcion = sc.nextInt();
+                opcion = sc.next().toUpperCase();
 
             }
             catch(InputMismatchException ime)
             {
 
                 System.out.print("\n[!!] Error: " + ime.getMessage());
-                opcion = 0; 
+                opcion = "J"; 
                 break;
 
             }
-            if(opcion < 1 || opcion > 3)
+            if(!opcion.equals("N") && !opcion.equals("I") && !opcion.equals("V"))
             {
 
                 System.out.print("\n[!!] OPCION NO VALIDA");
@@ -471,7 +478,7 @@ public class Main {
             }
 
         } 
-        while (opcion < 1 || opcion > 3);
+        while (!opcion.equals("N") && !opcion.equals("I") && !opcion.equals("V"));
 
 
         return opcion;
@@ -482,7 +489,7 @@ public class Main {
         persona aux;
 
         for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr.length; j++) {
+            for (int j = i+1; j < arr.length; j++) {
                 
                 if(arr[i].getNombre().compareToIgnoreCase(arr[j].getNombre()) < 0)
                 {
@@ -505,7 +512,7 @@ public class Main {
         persona aux;
 
         for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr.length; j++) {
+            for (int j = i+1; j < arr.length; j++) {
                 
                 if(Float.parseFloat(arr[i].getImp()) < Float.parseFloat(arr[j].getImp()))
                 {
@@ -625,7 +632,7 @@ public class Main {
 
     }
 
-    static void opsw(int op, int opt, int opc, int opo, String[] frases, File data, persona arr[], Scanner sc){
+    static void opsw(int op, int opt, int opc, String opo, String[] frases, File data, persona arr[], Scanner sc){
 
         do 
         {
@@ -713,25 +720,25 @@ public class Main {
                                     sc.nextLine();
 
                                     switch (opo) {
-                                        case 1:
+                                        case "N":
 
                                             arr = ordName(arr, data);
                                             devData(data, arr);
-                                            System.out.print("\n[!]Fichero ordenado.....");
+                                            System.out.print("\n[!]Fichero ordenado.....\n");
                                             break;
                                         
-                                        case 2:
+                                        case "I":
 
                                             arr = ordImp(arr, data);
                                             devData(data, arr);
-                                            System.out.print("\n[!]Fichero ordenado.....");
+                                            System.out.print("\n[!]Fichero ordenado.....\n");
                                             break;
                                     
                                         default:
                                             break;
                                     }
                                     
-                                } while (opo != 3);
+                                } while (!opo.equals("V"));
                         
                             default:
                                 
@@ -756,7 +763,8 @@ public class Main {
     
     public static void main(String[] args) throws Exception {
 
-        int op = 0, opt = 0, opc = 0, opo = 0;
+        int op = 0, opt = 0, opc = 0;
+        String opo = "";
 
         String frases[] = new String[3];
 
