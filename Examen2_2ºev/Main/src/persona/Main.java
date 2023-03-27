@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -273,7 +274,9 @@ public class Main {
             System.out.print("\n[1]---------> Altas");
             System.out.print("\n[2]---------> Listado general");
             System.out.print("\n[3]---------> Ordenar ficehro(menú)");
-            System.out.println("\n[4]---------> Volver al menu general");
+            System.out.print("\n[4]---------> Personas con mayor o menor importe");
+            System.out.print("\n[5]---------> Listado Importes por encima de la media");        
+            System.out.println("\n[6]---------> Volver al menu general");
             System.out.println();
             System.out.print("[OPCION]----> ");
             
@@ -291,7 +294,7 @@ public class Main {
                 break;
 
             }
-            if(opcion < 1 || opcion > 4)
+            if(opcion < 1 || opcion > 6)
             {
 
                 System.out.print("\n[!!] OPCION NO VALIDA");
@@ -299,7 +302,7 @@ public class Main {
             }
 
         } 
-        while (opcion < 1 || opcion > 4);
+        while (opcion < 1 || opcion > 6);
 
         return opcion;
 
@@ -314,7 +317,7 @@ public class Main {
         {
 
 
-            BufferedWriter bw = new BufferedWriter(new FileWriter(data));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(data,true));
         
           
 
@@ -397,6 +400,8 @@ public class Main {
 
         String name = "", imp = "";
 
+        DecimalFormat formato = new DecimalFormat("##.##");
+
         float cuenta = (float) 0;
 
         System.out.println("\n\t\tListado general");
@@ -422,7 +427,7 @@ public class Main {
                     imp = br.readLine();
                     cuenta += Float.parseFloat(imp);
 
-                    System.out.println(name + "\t" + imp);
+                    System.out.println(name + "\t" + formato.format(Float.parseFloat(imp)));
 
                     name = br.readLine();
 
@@ -489,7 +494,7 @@ public class Main {
         persona aux;
 
         for (int i = 0; i < arr.length; i++) {
-            for (int j = i+1; j < arr.length; j++) {
+            for (int j = 0; j < arr.length; j++) {
                 
                 if(arr[i].getNombre().compareToIgnoreCase(arr[j].getNombre()) < 0)
                 {
@@ -512,7 +517,7 @@ public class Main {
         persona aux;
 
         for (int i = 0; i < arr.length; i++) {
-            for (int j = i+1; j < arr.length; j++) {
+            for (int j = 0; j < arr.length; j++) {
                 
                 if(Float.parseFloat(arr[i].getImp()) < Float.parseFloat(arr[j].getImp()))
                 {
@@ -632,6 +637,272 @@ public class Main {
 
     }
 
+    static float media(File data){
+
+        float media = 0;
+        int cuenta = 0;
+        String name = "", imp = "";
+
+        try 
+        {
+
+            BufferedReader br = new BufferedReader(new FileReader(data));
+
+                name = br.readLine();
+
+                if(name == null)
+                {
+
+                    System.out.print("\n[!!] Fichero vacio\n");
+
+                }
+
+                while(name != null)
+                {
+                    imp = br.readLine();
+
+                    media += Float.parseFloat(imp);
+                    cuenta ++;
+
+                    name = br.readLine();
+
+                }
+
+            br.close();
+
+            
+        } catch (IOException ioe) 
+        {
+
+            System.out.print("\n[!!] Error: " + ioe.getMessage());
+
+        }
+
+        return (media/(float)cuenta);
+
+    }
+    
+
+    static void listImpMayorMed(File data){
+
+        DecimalFormat formato = new DecimalFormat("##.##");
+
+        float media = media(data), totalimp = (float) 0;
+        String name = "", imp = "";
+        int personas = 0;
+
+        System.out.print("\n\tListado superior a la media");
+        System.out.print("\n\t===========================");
+
+        System.out.println("\n Media: " + formato.format(media));
+
+        System.out.println("\nNombre:\t\t\tImporte:");
+        System.out.println("----------------------------------------");
+
+        try 
+        {
+
+            BufferedReader br = new BufferedReader(new FileReader(data));
+
+                name = br.readLine();
+
+                if(name == null)
+                {
+
+                    System.out.print("\n\t[!!] Fichero vacio....");
+
+                }
+
+                while(name != null)
+                {
+
+                    imp = br.readLine();
+                    
+
+                    if(Float.parseFloat(imp) >= media)
+                    {
+
+                        personas ++;
+                        totalimp += Float.parseFloat(imp);
+                        System.out.print(name + "\t\t\t" + imp);
+
+                    }
+
+                    name = br.readLine();
+
+                }
+
+            br.close();
+            
+        } catch (IOException ioe) 
+        {
+
+            System.out.print("\n[!!] Error: " + ioe.getMessage());
+        
+        }
+
+        System.out.println("\n\n[!] Total de importes listados: " + totalimp);
+        System.out.println("\n[!] Total de personas listadas: " + personas);
+
+
+    }
+
+    static float mayor(File data){
+
+        float mayor = (float) 0;
+        String name = "", imp = "";
+
+        try 
+        {
+
+            BufferedReader br = new BufferedReader(new FileReader(data));
+
+                name = br.readLine();
+
+                if(name == null)
+                {
+
+                    System.out.print("\n[!!] Fichero vacio\n");
+
+                }
+
+                while(name != null)
+                {
+                    imp = br.readLine();
+
+                    if( Float.parseFloat(imp) > mayor)
+                    {
+
+                        mayor = Float.parseFloat(imp);
+
+                    }
+
+                    name = br.readLine();
+
+                }
+
+            br.close();
+
+            
+        } catch (IOException ioe) 
+        {
+
+            System.out.print("\n[!!] Error: " + ioe.getMessage());
+
+        }
+
+        return mayor;
+
+    }
+
+    static float menor(File data){
+
+        float menor = (float) 1000;
+        String name = "", imp = "";
+
+        try 
+        {
+
+            BufferedReader br = new BufferedReader(new FileReader(data));
+
+                name = br.readLine();
+
+                if(name == null)
+                {
+
+                    System.out.print("\n[!!] Fichero vacio\n");
+
+                }
+
+                while(name != null)
+                {
+                    imp = br.readLine();
+
+                    if( Float.parseFloat(imp) < menor)
+                    {
+
+                        menor = Float.parseFloat(imp);
+
+                    }
+
+                    name = br.readLine();
+
+                }
+
+            br.close();
+
+            
+        } catch (IOException ioe) 
+        {
+
+            System.out.print("\n[!!] Error: " + ioe.getMessage());
+
+        }
+
+        return menor;
+
+    }
+
+    static void listMayMen(File data){
+
+        float mayor = mayor(data), menor = menor(data);
+
+        String name = "", imp = "";
+
+        System.out.print("\nListado Mayor | Menor");
+        System.out.print("\n---------------------\n");
+
+        try 
+        {
+
+            BufferedReader br = new BufferedReader(new FileReader(data));
+
+                name = br.readLine();
+
+                if(name == null)
+                {
+
+                    System.out.print("\n\t[!!] Fichero vacio....");
+
+                }
+
+                while(name != null)
+                {
+
+                    imp = br.readLine();
+
+                    if(Float.parseFloat(imp) == menor)
+                    {
+
+                        System.out.println(name + " tiene el importe menor cpn un total de: " + imp + "\n");
+
+                    }
+                    else if(Float.parseFloat(imp) == mayor)
+                    {
+
+                        System.out.println(name + " tiene el importe mayor con un total de: " + imp + "\n");
+
+                    }
+
+                    name = br.readLine();
+
+                }
+
+
+
+            br.close();
+            
+        } catch (IOException ioe) 
+        {
+
+            System.out.print("\n[!!] Error: " + ioe.getMessage());
+
+        }
+
+
+
+    }
+
     static void opsw(int op, int opt, int opc, String opo, String[] frases, File data, persona arr[], Scanner sc){
 
         do 
@@ -702,6 +973,8 @@ public class Main {
                             case 1:
                                 
                                 altas(sc, data);
+                                Arrays.fill(arr, null);
+                                arr = llenarArr(data, arr);
                                 break;
 
                             case 2:
@@ -711,15 +984,14 @@ public class Main {
 
                             case 3:
 
-                                arr = llenarArr(data, arr); 
-
                                 do 
                                 {
 
                                     opo = menuOrd(sc);
                                     sc.nextLine();
 
-                                    switch (opo) {
+                                    switch (opo) 
+                                    {
                                         case "N":
 
                                             arr = ordName(arr, data);
@@ -739,6 +1011,17 @@ public class Main {
                                     }
                                     
                                 } while (!opo.equals("V"));
+                                break;
+                            
+                            case 4:
+
+                                listMayMen(data);   
+                                break;
+
+                            case 5:
+
+                                listImpMayorMed(data);
+                                break;
                         
                             default:
                                 
@@ -746,7 +1029,7 @@ public class Main {
                                 break;
                         }
                         
-                    } while (opc != 4);
+                    } while (opc != 6);
                     break;
 
                 default:
