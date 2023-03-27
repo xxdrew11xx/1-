@@ -994,12 +994,26 @@ public class Main {
                                     {
                                         case "N":
 
+                                            if(arr[0] == null)
+                                            {
+
+                                                arr = llenarArr(data, arr);
+
+                                            }
+
                                             arr = ordName(arr, data);
                                             devData(data, arr);
                                             System.out.print("\n[!]Fichero ordenado.....\n");
                                             break;
                                         
                                         case "I":
+
+                                            if(arr[0] == null)
+                                            {
+
+                                                arr = llenarArr(data, arr);
+
+                                            }
 
                                             arr = ordImp(arr, data);
                                             devData(data, arr);
