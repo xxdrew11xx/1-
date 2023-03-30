@@ -967,13 +967,11 @@ public class Main {
                         opc = menuEj2(sc);
                         sc.nextLine();
 
-                        
-
                         switch (opc) {
                             case 1:
                                 
                                 altas(sc, data);
-                                Arrays.fill(arr, null);
+                                arr = new persona[cuenta(data)];
                                 arr = llenarArr(data, arr);
                                 break;
 
@@ -1069,7 +1067,6 @@ public class Main {
 
         persona arr[] = new persona[cuenta(data)];
         
-
         Scanner sc = new Scanner(System.in);
 
             opsw(op, opt, opc, opo, frases, data, arr, sc);
