@@ -139,12 +139,34 @@ public class App {
 
         Iterator<String> it = lista.iterator();
 
-        System.out.print("\n[!] La lista es: ");
+        System.out.print("\n[!] La lista es: \n");
 
         while(it.hasNext())
         {
 
             System.out.print("\n" + it.next() + " ");
+
+        }
+
+    }
+
+    static void consulta(List<String> lista, Scanner sc){
+
+        String raza = "";
+
+        System.out.print("\n[+] Introduce un raza para consultar si está en la lista: ");
+        raza = sc.nextLine();
+
+        if(lista.contains(raza))
+        {
+
+            System.out.print("\n[!] La raza: " + raza + " está en la lista\n");
+
+        }
+        else
+        {
+
+            System.out.print("\n[!] La raza: " + raza + " no está en la lista\n");
 
         }
 
@@ -185,6 +207,7 @@ public class App {
                 
                     case 4: 
 
+                        consulta(lista, sc);
                         break;
 
                     case 5:
