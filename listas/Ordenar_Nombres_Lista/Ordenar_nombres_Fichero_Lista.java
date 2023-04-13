@@ -129,7 +129,7 @@ public class Ordenar_nombres_Fichero_Lista {
     }
 
 
-    static void ordenar(File data) throws IOException{
+    static void ordenar(File data, Scanner sc) throws IOException{
 
         String nombre = "";
 
@@ -140,10 +140,6 @@ public class Ordenar_nombres_Fichero_Lista {
 
             BufferedReader br = new BufferedReader(new FileReader(data));
 
-                System.out.print("\n\n\t\t LISTADO GENERAL");
-                System.out.print("\n\t=================================");
-
-                System.out.print("\n\tNombre\n");
 
                 nombre = br.readLine();
 
@@ -165,32 +161,33 @@ public class Ordenar_nombres_Fichero_Lista {
 
         }
 
-        Collections.sort(lista);
-        data.delete();
+        System.out.print("\n[1] Ordenar de la A-Z ");
+        System.out.println("\n[2] Ordenar de la Z-A");
+        System.out.print("[+] Opcion: ");
+        int op = sc.nextInt();
+        sc.nextLine();
 
-            if(!data.exists())
-            {
+        System.out.print("\n\n\t\t LISTADO GENERAL");
+        System.out.print("\n\t=================================");
+        System.out.print("\n\tNombre\n");
 
-                try 
-                {
+        if(op == 1)
+        {
+            
+            Collections.sort(lista);
+        
+        } 
+        else
+        {
 
-                    data.createNewFile();
-                    
-                } 
-                catch (IOException ioe) 
-                {
-                    
-                    System.out.print("\n[!!] ERROR: " + ioe.getMessage() + "\n\n");
+            Collections.sort(lista);
+            Collections.reverse(lista);
 
-                }
-
-            }
-
-
+        }
         try 
         {
 
-            BufferedWriter bw = new BufferedWriter(new FileWriter(data,true));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(data,false));
 
                 for(int j = 0; j < lista.size(); j++)
                 {
@@ -237,6 +234,8 @@ public class Ordenar_nombres_Fichero_Lista {
         }
 
 
+        lista.clear();
+
     }
 
     static void filedel(File data){
@@ -273,7 +272,7 @@ public class Ordenar_nombres_Fichero_Lista {
                     
                     case 2:
 
-                        ordenar(data);
+                        ordenar(data, sc);
                         System.out.println();
                         break;
     
