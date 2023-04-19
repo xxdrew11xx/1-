@@ -92,7 +92,7 @@ public class Main {
 
     static void altas(Scanner sc) {
 
-        String name = "", nameUpper = "", dni = "";
+        String name = "", dni = "";
         char genero = ' ';
         int edad = 0;
 
@@ -102,67 +102,93 @@ public class Main {
 
             DataOutputStream dout = new DataOutputStream(new FileOutputStream(data, true));
 
-            System.out.print("\n[+] Introduce el nombre: ");
-            name = sc.nextLine();
-            nameUpper = name.toUpperCase().substring(0, 1) + name.substring(1, name.length());
-
-            while (!name.equalsIgnoreCase("fin")) {
-
-                do {
-                    try {
-
-                        System.out.print("\n[+] Introduce la edad: ");
-                        edad = sc.nextInt();
-
-                    } catch (InputMismatchException ime) {
-
-                        System.out.print("\n[!!] Error: " + ime.getLocalizedMessage() + "\n");
-                        edad = -5;
-                        break;
-
-                    }
-
-                } while (edad < 0);
-
-                do {
-
-                    System.out.print("\n[+] Introduce el género (H-> Hombre | M -> Mujer): ");
-                    genero = sc.next().toUpperCase().charAt(0);
-
-                    if (genero != 'H' && genero != 'M') {
-
-                        System.out.print("\n[!!] Género mal especificado...");
-
-                    }
-
-                } while (genero != 'H' && genero != 'M');
-
-                sc.nextLine();
-
                 do
                 {
                     do 
                     {
 
-                        System.out.print("\n[+] Introduce DNI: ");
+                        System.out.print("\n[+] Introduce DNI (Fin para salir): ");
                         dni = sc.nextLine();
+                        if(dni.equalsIgnoreCase("fin"))
+                            break;
+
+                        dni = dni.substring(0, 8) + dni.toUpperCase().substring(8, 9);
                         DNI.setDni(dni);
+
                     } while (!DNI.validar());
 
+                    if(dni.equalsIgnoreCase("fin"))
+                        break;
+
                 }while((dnirepetido(dni)));
+           
 
+                while (!dni.equalsIgnoreCase("fin")) 
+                {
 
+                    System.out.print("\n[+] Introduce el nombre: ");
+                    name = sc.nextLine();
+                    name = name.toUpperCase().substring(0, 1) + name.substring(1, name.length());
 
-                dout.writeUTF(nameUpper);
-                dout.writeChar(genero);
-                dout.writeInt(edad);
-                dout.writeUTF(DNI.getDni());
+                    do 
+                    {
+                        try {
 
-                System.out.print("\n[+] Introduce el nombre: ");
-                name = sc.nextLine();
-                nameUpper = name.toUpperCase().substring(0, 1) + name.substring(1, name.length());
+                            System.out.print("\n[+] Introduce la edad: ");
+                            edad = sc.nextInt();
 
-            }
+                        } catch (InputMismatchException ime) {
+
+                            System.out.print("\n[!!] Error: " + ime.getLocalizedMessage() + "\n");
+                            edad = -5;
+                            break;
+
+                        }
+
+                    } while (edad < 0);
+
+                    do 
+                    {
+
+                        System.out.print("\n[+] Introduce el género (H-> Hombre | M -> Mujer): ");
+                        genero = sc.next().toUpperCase().charAt(0);
+
+                        if (genero != 'H' && genero != 'M') {
+
+                            System.out.print("\n[!!] Género mal especificado...");
+
+                        }
+
+                    } while (genero != 'H' && genero != 'M');
+
+                    sc.nextLine();
+
+                    dout.writeUTF(name);
+                    dout.writeChar(genero);
+                    dout.writeInt(edad);
+                    dout.writeUTF(DNI.getDni());
+
+                    do
+                    {
+                        do 
+                        {
+    
+                            System.out.print("\n[+] Introduce DNI (Fin para salir): ");
+                            dni = sc.nextLine();
+                            if(dni.equalsIgnoreCase("fin"))
+                                break;
+
+                            dni = dni.substring(0, 8) + dni.toUpperCase().substring(8, 9);
+                            DNI.setDni(dni);
+    
+                        } while (!DNI.validar());
+    
+                        if(dni.equalsIgnoreCase("fin"))
+                            break;
+ 
+                    }while((dnirepetido(dni)));
+
+                }
 
             dout.close();
 
@@ -238,7 +264,7 @@ public class Main {
         boolean fin = false;
 
         System.out.print("\nNombre: \t\t\tGenero: \tEdad:  \tDNI:\n");
-        for (int i = 0; i < 66; i++) {
+        for (int i = 0; i < 65; i++) {
             System.out.print("-");
         }
 
@@ -296,7 +322,7 @@ public class Main {
         boolean fin = false;
 
         System.out.print("\nNombre: \t\t\tGenero: \tEdad:  \tDNI:\n");
-        for (int i = 0; i < 66; i++) {
+        for (int i = 0; i < 65; i++) {
             System.out.print("-");
         }
 
@@ -371,7 +397,7 @@ public class Main {
         } while (maxima < minima);
 
         System.out.print("\nNombre: \t\t\tGenero: \tEdad:  \tDNI:\n");
-        for (int i = 0; i < 66; i++) {
+        for (int i = 0; i < 65; i++) {
             System.out.print("-");
         }
 
@@ -434,7 +460,7 @@ public class Main {
         boolean fin = false;
 
         System.out.print("\nNombre: \t\t\tGenero: \tEdad:  \tDNI:\n");
-        for (int i = 0; i < 66; i++) {
+        for (int i = 0; i < 65; i++) {
             System.out.print("-");
         }
 
