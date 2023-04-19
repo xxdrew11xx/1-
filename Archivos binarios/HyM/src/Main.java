@@ -15,7 +15,8 @@ public class Main {
             System.out.print("\n[1]---------> Altas");
             System.out.print("\n[2]---------> Consultas");
             System.out.print("\n[3]---------> Listados ");
-            System.out.println("\n[4]---------> Exit");
+            System.out.print("\n[4]---------> Borrar fichero ");
+            System.out.println("\n[5]---------> Exit");
             System.out.println();
             System.out.print("[OPCION]----> ");
 
@@ -30,26 +31,68 @@ public class Main {
                 break;
 
             }
-            if (opcion < 1 || opcion > 4) {
+            if (opcion < 1 || opcion > 5) {
 
                 System.out.print("\n[!!] OPCION NO VALIDA");
 
             }
 
-        } while (opcion < 1 || opcion > 4);
+        } while (opcion < 1 || opcion > 5);
 
         return opcion;
 
     }
 
-    static boolean comprob(String dni) {
+    static boolean dnirepetido(String dni) {
 
-        return true;
+        boolean fin = false, repetido = false;
+        String DNI = "";
+
+        try {
+
+            DataInputStream dinp = new DataInputStream(new FileInputStream(data));
+
+            while (!fin) {
+
+                try {
+
+                    dinp.readUTF();
+                    dinp.readChar();
+                    dinp.readInt();
+                    DNI = dinp.readUTF();
+
+                    if(dni.equalsIgnoreCase(DNI))
+                    {
+
+                        System.out.print("\n[!!] DNI REPETIDO\n");
+                        repetido = true;
+                        break;
+
+                    }
+
+                } catch (EOFException eofe) {
+
+                    fin = true;
+
+                }
+
+            }
+
+            dinp.close();
+
+        } catch (IOException ioe) {
+
+            System.out.print("\n[!!] Error: " + ioe.getLocalizedMessage() + "\n");
+
+        }
+
+
+        return repetido;
     }
 
     static void altas(Scanner sc) {
 
-        String name = "", dni = "";
+        String name = "", nameUpper = "", dni = "";
         char genero = ' ';
         int edad = 0;
 
@@ -61,6 +104,7 @@ public class Main {
 
             System.out.print("\n[+] Introduce el nombre: ");
             name = sc.nextLine();
+            nameUpper = name.toUpperCase().substring(0, 1) + name.substring(1, name.length());
 
             while (!name.equalsIgnoreCase("fin")) {
 
@@ -95,21 +139,28 @@ public class Main {
 
                 sc.nextLine();
 
-                do {
+                do
+                {
+                    do 
+                    {
 
-                    System.out.print("\n[+] Introduce DNI: ");
-                    dni = sc.nextLine();
-                    DNI.setDni(dni);
+                        System.out.print("\n[+] Introduce DNI: ");
+                        dni = sc.nextLine();
+                        DNI.setDni(dni);
+                    } while (!DNI.validar());
 
-                } while (!DNI.validar());
+                }while((dnirepetido(dni)));
 
-                dout.writeUTF(name);
+
+
+                dout.writeUTF(nameUpper);
                 dout.writeChar(genero);
                 dout.writeInt(edad);
                 dout.writeUTF(DNI.getDni());
 
                 System.out.print("\n[+] Introduce el nombre: ");
                 name = sc.nextLine();
+                nameUpper = name.toUpperCase().substring(0, 1) + name.substring(1, name.length());
 
             }
 
@@ -438,7 +489,6 @@ public class Main {
     }
 
     static void listado(Scanner sc) {
-        // listado general hombres mujeres entre edades B-> volver
 
         char op = ' ';
 
@@ -489,6 +539,22 @@ public class Main {
 
     }
 
+    static void borrarFich(){
+
+        data.delete();
+
+        try 
+        {
+
+            data.createNewFile();
+            
+        } catch (IOException ioe) {
+
+            System.out.print("\n[!!] Error: " + ioe.getLocalizedMessage() + "\n");
+
+        }
+    }
+
     public static void main(String[] args) throws Exception {
 
         int op = 0;
@@ -516,11 +582,17 @@ public class Main {
                     listado(sc);
                     break;
 
+                case 4:
+
+                    borrarFich();
+                    System.out.print("\n[!] Fichero borrado correctamente....\n");
+                    break;
+
                 default:
                     break;
             }
 
-        } while (op != 4);
+        } while (op != 5);
 
         sc.close();
 
