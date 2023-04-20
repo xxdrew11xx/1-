@@ -538,7 +538,7 @@ public class Main {
                 op = sc.next().toUpperCase().charAt(0);
                 sc.nextLine();
 
-            } while (op != 'G' && op != 'H' && op != 'M' && op != 'E' && op != 'B');
+            } while ("GHMEB".indexOf(op) == -1);
 
             switch (op) 
             {
