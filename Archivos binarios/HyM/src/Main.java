@@ -518,10 +518,13 @@ public class Main {
     static void listado(Scanner sc) {
 
         char op = ' ';
+        boolean exit = false;
 
-        do {
+        while (!exit)
+        {
 
-            do {
+            do 
+            {
 
                 System.out.print("\n----------------------------MENÚ---------------------------- ");
                 System.out.print("\n[G]---------> General");
@@ -537,7 +540,8 @@ public class Main {
 
             } while (op != 'G' && op != 'H' && op != 'M' && op != 'E' && op != 'B');
 
-            switch (op) {
+            switch (op) 
+            {
                 case 'G':
 
                     general();
@@ -559,10 +563,12 @@ public class Main {
                     break;
 
                 default:
+
+                    exit = true;
                     break;
             }
 
-        } while (op != 'B');
+        } 
 
     }
 
@@ -591,7 +597,8 @@ public class Main {
         while(!exit)
         {
 
-            switch (menu(sc)) {
+            switch (menu(sc)) 
+            {
                 case 1:
 
                     altas(sc);
