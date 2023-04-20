@@ -23,6 +23,7 @@ public class Main {
             try {
 
                 opcion = sc.nextInt();
+                sc.nextLine();
 
             } catch (InputMismatchException ime) {
 
@@ -583,16 +584,14 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        int op = 0;
+        boolean exit = false;
 
         Scanner sc = new Scanner(System.in);
 
-        do {
+        while(!exit)
+        {
 
-            op = menu(sc);
-            sc.nextLine();
-
-            switch (op) {
+            switch (menu(sc)) {
                 case 1:
 
                     altas(sc);
@@ -615,10 +614,12 @@ public class Main {
                     break;
 
                 default:
+
+                    exit = true;
                     break;
             }
 
-        } while (op != 5);
+        } 
 
         sc.close();
 
