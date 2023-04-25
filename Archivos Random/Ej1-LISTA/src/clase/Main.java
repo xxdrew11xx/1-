@@ -596,6 +596,7 @@ public class Main {
                 case 'B':
 
                     bajas();
+                    System.out.println();
                     break;
 
                 case 'M':
