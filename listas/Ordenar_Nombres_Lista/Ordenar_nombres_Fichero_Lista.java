@@ -12,13 +12,12 @@ import java.io.IOException;
 
 public class Ordenar_nombres_Fichero_Lista {
 
-    static int menu(Scanner e){
+    static int menu(Scanner e) {
 
         int opcion = 4;
 
-        do 
-        {
-                
+        do {
+
             System.out.print("\n----------------------------MENU---------------------------- ");
             System.out.print("\n[1]---------> Crear Fichero");
             System.out.print("\n[2]---------> Ordenar Fichero");
@@ -27,48 +26,40 @@ public class Ordenar_nombres_Fichero_Lista {
             System.out.println("\n[5]---------> Exit");
             System.out.println();
             System.out.print("[OPCION]----> ");
-            
-            try 
-            {
+
+            try {
 
                 opcion = e.nextInt();
-            
-            } 
-            catch (InputMismatchException ime) 
-            {
-            
+
+            } catch (InputMismatchException ime) {
+
                 System.out.print("\n[!!] ERROR: " + ime.getMessage());
 
             }
 
-            if(opcion < 1 || opcion > 5)
-            {
+            if (opcion < 1 || opcion > 5) {
 
                 System.out.print("\n[!!] OPCION NO VALIDA");
 
             }
 
-        } 
-        while (opcion < 1 || opcion > 5);
+        } while (opcion < 1 || opcion > 5);
 
         return opcion;
     }
 
-    static void altas(Scanner sc, File data){
+    static void altas(Scanner sc, File data) {
 
         String nombre = "";
 
+        try {
 
-        try 
-        {
-
-            BufferedWriter bw = new BufferedWriter(new FileWriter(data,false));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(data, false));
 
             System.out.print("\n[+] Nombre (\"Fin\" para salir): ");
             nombre = sc.nextLine();
 
-            while (!nombre.equalsIgnoreCase("Fin"))
-            {
+            while (!nombre.equalsIgnoreCase("Fin")) {
 
                 bw.write(nombre);
                 bw.newLine();
@@ -78,84 +69,71 @@ public class Ordenar_nombres_Fichero_Lista {
 
             }
 
+            bw.close();
 
-            bw.close(); 
-
-        } 
-        catch (IOException ioe) 
-        {
+        } catch (IOException ioe) {
 
             System.out.print("\n[!!] ERROR " + ioe.getLocalizedMessage() + "\n\n");
-                
-        }     
-        
+
+        }
+
     }
 
-    static void listado_general(File data){
+    static void listado_general(File data) {
 
         String nombre = "";
 
-            try 
-            {
+        try {
 
-                BufferedReader br = new BufferedReader(new FileReader(data));
+            BufferedReader br = new BufferedReader(new FileReader(data));
 
-                    System.out.print("\n\n\t\t LISTADO GENERAL");
-                    System.out.print("\n\t=================================");
+            System.out.print("\n\n\t\t LISTADO GENERAL");
+            System.out.print("\n\t=================================");
 
-                    System.out.print("\n\tNombre\n");
+            System.out.print("\n\tNombre\n");
 
-                    nombre = br.readLine();
+            nombre = br.readLine();
 
-                    while (nombre != null)
-                    {
+            while (nombre != null) {
 
-                        System.out.print("\n\t" + nombre);
+                System.out.print("\n\t" + nombre);
 
-                        nombre = br.readLine();
-
-                    }
-
-                br.close();
-                
-            } 
-            catch (IOException ioe) 
-            {
-
-                System.out.print("\n[!!] ERROR " + ioe.getLocalizedMessage() + "\n\n");
+                nombre = br.readLine();
 
             }
 
+            br.close();
+
+        } catch (IOException ioe) {
+
+            System.out.print("\n[!!] ERROR " + ioe.getLocalizedMessage() + "\n\n");
+
+        }
+
     }
 
-
-    static void ordenar(File data, Scanner sc) throws IOException{
+    static void ordenar(File data, Scanner sc) throws IOException {
 
         String nombre = "";
 
         List<String> lista = new ArrayList<>();
 
-        try 
-        {
+        try {
 
             BufferedReader br = new BufferedReader(new FileReader(data));
 
+            nombre = br.readLine();
 
+            while (nombre != null) {
+
+                lista.add(nombre);
                 nombre = br.readLine();
 
-                while (nombre != null)
-                {
-
-                    lista.add(nombre);
-                    nombre = br.readLine();
-
-                }
+            }
 
             br.close();
-                
-        } 
-        catch (IOException ioe) 
-        {
+
+        } catch (IOException ioe) {
 
             System.out.print("\n[!!] ERROR " + ioe.getLocalizedMessage() + "\n\n");
 
@@ -171,74 +149,61 @@ public class Ordenar_nombres_Fichero_Lista {
         System.out.print("\n\t=================================");
         System.out.print("\n\tNombre\n");
 
-        if(op == 1)
-        {
-            
+        if (op == 1) {
+
             Collections.sort(lista);
-        
-        } 
-        else
-        {
+
+        } else {
 
             Collections.sort(lista);
             Collections.reverse(lista);
 
         }
-        try 
-        {
+        try {
 
-            BufferedWriter bw = new BufferedWriter(new FileWriter(data,false));
+            BufferedWriter bw = new BufferedWriter(new FileWriter(data, false));
 
-                for(int j = 0; j < lista.size(); j++)
-                {
-                    
-                    bw.write(lista.get(j));
-                    bw.newLine();
+            for (int j = 0; j < lista.size(); j++) {
 
-                }
+                bw.write(lista.get(j));
+                bw.newLine();
 
+            }
 
-            bw.close(); 
+            bw.close();
 
-        } 
-        catch (IOException ioe) 
-        {
-
-            System.out.print("\n[!!] ERROR " + ioe.getLocalizedMessage() + "\n\n");
-                
-        }     
-
-        try 
-        {
-
-            BufferedReader br = new BufferedReader(new FileReader(data));
-
-                nombre = br.readLine();
-
-                while (nombre != null)
-                {
-
-                    System.out.print("\n\t" + nombre);
-                    nombre = br.readLine();
-
-                }
-
-            br.close();
-                
-        } 
-        catch (IOException ioe) 
-        {
+        } catch (IOException ioe) {
 
             System.out.print("\n[!!] ERROR " + ioe.getLocalizedMessage() + "\n\n");
 
         }
 
+        try {
+
+            BufferedReader br = new BufferedReader(new FileReader(data));
+
+            nombre = br.readLine();
+
+            while (nombre != null) {
+
+                System.out.print("\n\t" + nombre);
+                nombre = br.readLine();
+
+            }
+
+            br.close();
+
+        } catch (IOException ioe) {
+
+            System.out.print("\n[!!] ERROR " + ioe.getLocalizedMessage() + "\n\n");
+
+        }
 
         lista.clear();
 
     }
 
-    static void filedel(File data){
+    static void filedel(File data) {
 
         data.delete();
 
@@ -246,10 +211,10 @@ public class Ordenar_nombres_Fichero_Lista {
 
     }
 
-
     public static void main(String[] args) throws Exception {
-        
-        File data = new File("/home/drew/DAM/Programcion_clase/Clase/Fichero_Nombres_ordenados_Alfabeticamente/data/data.txt");
+
+        File data = new File(
+                "/home/drew/DAM/Programcion_clase/Clase/Fichero_Nombres_ordenados_Alfabeticamente/data/data.txt");
 
         int opcion = 0;
 
@@ -257,41 +222,38 @@ public class Ordenar_nombres_Fichero_Lista {
 
         Scanner sc = new Scanner(System.in);
 
-            do 
-            {
+        do {
 
-                opcion = menu(sc);
-                sc.nextLine();
+            opcion = menu(sc);
+            sc.nextLine();
 
-                switch (opcion) 
-                {
-                    case 1:
-                        
-                        altas(sc, data);
-                        break;
-                    
-                    case 2:
+            switch (opcion) {
+                case 1:
 
-                        ordenar(data, sc);
-                        System.out.println();
-                        break;
-    
-                    case 3:
+                    altas(sc, data);
+                    break;
 
-                        listado_general(data);
-                        System.out.println();
-                        break;
+                case 2:
 
-                    case 4:
+                    ordenar(data, sc);
+                    System.out.println();
+                    break;
 
-                        filedel(data);
-                        break;
-                    
-                    default:
-                        break;
-                }
-            } 
-            while (opcion != 5);
+                case 3:
+
+                    listado_general(data);
+                    System.out.println();
+                    break;
+
+                case 4:
+
+                    filedel(data);
+                    break;
+
+                default:
+                    break;
+            }
+        } while (opcion != 5);
 
         sc.close();
 
