@@ -327,12 +327,9 @@ public class Main {
         int numero = 0, poscion = 0, posseek = 0;
         char otro = 'N';
 
-        ArrayList<alumno> actualizaciones = new ArrayList<>();
-
         while (!exit) {
 
             alumnos.clear();
-            actualizaciones.clear();
 
             llenarLista();
 
@@ -356,41 +353,13 @@ public class Main {
 
             exit = false;
 
-            for (alumno p : alumnos) {
-
-                if (p.getNumero() != numero)
-                    actualizaciones.add(p);
-
-            }
-
             System.out.print("\n[!] Alumno borrado correctamente....\n");
 
-            RandomAccessFile raf = new RandomAccessFile(data, "rw");
+            RandomAccessFile raf = new RandomAccessFile(data, "rws");
 
-            for (alumno alum : actualizaciones) {
+            raf.seek(Pos(numero) * alumno.tamaño());
 
-                raf.seek(posseek);
-
-                raf.writeInt(alum.getNumero());
-                raf.writeUTF(alum.getNombre());
-                raf.writeInt(alum.getNota1());
-                raf.writeInt(alum.getNota2());
-                raf.writeInt(alum.getNota3());
-                raf.writeChar(alum.getApto());
-
-                posseek = ++poscion * alumno.tamaño();
-
-            }
-
-            while (posseek < raf.length()) {
-
-                raf.seek(posseek);
-
-                alumno.grabarPersonaBaja(raf);
-
-                posseek = ++poscion * alumno.tamaño();
-
-            }
+            alumno.grabarPersonaBaja(raf);
 
             raf.close();
 
@@ -402,8 +371,37 @@ public class Main {
 
             if (otro == 'N')
                 exit = true;
+        }
+
+    }
+
+    static int Pos(int numero) throws Exception {
+
+        int posicion = 0, posseek = 0, nraf = 0;
+
+        RandomAccessFile raf = new RandomAccessFile(data, "r");
+
+        while (posseek < raf.length()) {
+
+            raf.seek(posseek);
+
+            nraf = raf.readInt();
+            raf.readUTF();
+            raf.readInt();
+            raf.readInt();
+            raf.readInt();
+            raf.readChar();
+
+            if (numero == nraf)
+                break;
+
+            posseek = ++posicion * alumno.tamaño();
 
         }
+
+        raf.close();
+
+        return posicion;
 
     }
 
