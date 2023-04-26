@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
+
+import javax.swing.text.Position;
 
 public class Main {
 
@@ -105,7 +108,6 @@ public class Main {
 
             if (a.getNumero() == numero) {
 
-                System.out.print("[!!] Este número ya está registrado....\n");
                 exists = true;
                 break;
 
@@ -122,13 +124,19 @@ public class Main {
         int numero = 0, nota1 = 0, nota2 = 0, nota3 = 0;
         String nombre = "";
         char apto = 'N';
+        boolean exists = false;
 
         do {
 
             System.out.print("\n[+] Introduce el numero del alumno: ");
             numero = k.rInt();
 
-        } while (compararNumero(numero));
+            exists = compararNumero(numero);
+
+            if (exists)
+                System.out.print("[!!] Este número ya está registrado....\n");
+
+        } while (exists);
 
         do {
 
@@ -230,12 +238,13 @@ public class Main {
 
     static void Listados() {
 
-        int posicion = 0, numero = 0, posseek = 0, nota1 = 0, nota2 = 0, nota3 = 0;
+        int posicion = 0, numero = 0, posseek = 0, nota1 = 0, nota2 = 0, nota3 = 0, pagina = 1, linea = 0;
         String name = "";
         char apto = ' ';
+        boolean nuevaPag = false;
 
-        System.out.print("\nNumero:\t\tNombre:\t\t\tNota1:\t\tNota2:\t\tNota3:\t\tApto:\n");
-        for (int i = 0; i < 85; i++) {
+        System.out.print("\nNumero:\t\tNombre:\t\t\tNota1:\t\tNota2:\t\tNota3:\t\tApto:\t\tPágina: 1\n");
+        for (int i = 0; i < 113; i++) {
 
             System.out.print("-");
 
@@ -247,8 +256,22 @@ public class Main {
             while ((posseek < raf.length())) {
 
                 raf.seek(posseek);
+                linea++;
 
                 numero = raf.readInt();
+
+                if (linea % 6 == 0 && numero != 0) {
+                    pagina++;
+                    System.out.println();
+                    System.out.println(
+                            "\nNumero:\t\tNombre:\t\t\tNota1:\t\tNota2:\t\tNota3:\t\tApto:\t\tPágina:" + pagina);
+                    for (int i = 0; i < 113; i++) {
+
+                        System.out.print("-");
+
+                    }
+
+                }
 
                 if (numero == 0) {
 
@@ -298,107 +321,87 @@ public class Main {
 
     }
 
-    static void bajas() {
+    static void Bajas() throws Exception {
 
-        int numero = 0, posicion = 0, nraf = 0, posseek = 0;
-        boolean out = false;
+        boolean exit = false;
+        int numero = 0, poscion = 0, posseek = 0;
+        char otro = 'N';
 
-        alumnos.clear();
+        ArrayList<alumno> actualizaciones = new ArrayList<>();
 
-        try {
+        while (!exit) {
+
+            alumnos.clear();
+            actualizaciones.clear();
 
             llenarLista();
 
-        } catch (Exception e) {
-            System.out.print("\n[!!] Error: " + e.getLocalizedMessage());
-        }
-
-        Listados();
-        System.out.println();
-
-        try {
+            Listados();
 
             do {
 
-                System.out.print("\n[+] Alumno a dar de baja (Número): ");
-                numero = k.rInt();
+                do {
 
-            } while (numero == Integer.MIN_VALUE || numero == 0);
+                    System.out.print("\n\n[+] Alumno a dar de baja (Número): ");
+                    numero = k.rInt();
 
-        } catch (IOException ioe) {
+                } while (numero == Integer.MIN_VALUE || numero == 0);
 
-            System.out.print("\n[!!] Error: " + ioe.getLocalizedMessage());
+                exit = compararNumero(numero);
 
-        }
+                if (!exit)
+                    System.out.print("[!!] Alumno no encontrado....\n");
 
-        try {
+            } while (!exit);
 
-            RandomAccessFile raf = new RandomAccessFile(data, "rw");
+            exit = false;
 
-            while ((posseek) < raf.length()) {
+            for (alumno p : alumnos) {
 
-                raf.seek(posseek);
-
-                nraf = raf.readInt();
-                raf.readUTF();
-                raf.readInt();
-                raf.readInt();
-                raf.readInt();
-                raf.readChar();
-
-                if (numero == nraf) {
-
-                    out = true;
-
-                    raf.seek(0);
-
-                    for (alumno p : alumnos) {
-
-                        nraf = p.getNumero();
-
-                        if (nraf != numero) {
-
-                            raf.writeInt(nraf);
-                            raf.writeUTF(p.getNombre());
-                            raf.writeInt(p.getNota1());
-                            raf.writeInt(p.getNota2());
-                            raf.writeInt(p.getNota3());
-                            raf.writeChar(p.getApto());
-
-                        } else {
-
-                            alumno.grabarPersonaBaja(raf);
-
-                        }
-
-                    }
-
-                    System.out.print("\n[!] El alumno ha sido dado de baja.....\n");
-
-                }
-                posseek = ++posicion * alumno.tamaño();
+                if (p.getNumero() != numero)
+                    actualizaciones.add(p);
 
             }
 
-            if (!out) {
+            System.out.print("\n[!] Alumno borrado correctamente....\n");
 
-                System.out.print("\n[!!] No se ha encontrado a ningun alumno con ese número.....\n");
+            RandomAccessFile raf = new RandomAccessFile(data, "rw");
+
+            for (alumno alum : actualizaciones) {
+
+                raf.seek(posseek);
+
+                raf.writeInt(alum.getNumero());
+                raf.writeUTF(alum.getNombre());
+                raf.writeInt(alum.getNota1());
+                raf.writeInt(alum.getNota2());
+                raf.writeInt(alum.getNota3());
+                raf.writeChar(alum.getApto());
+
+                posseek = ++poscion * alumno.tamaño();
+
+            }
+
+            while (posseek < raf.length()) {
+
+                raf.seek(posseek);
+
+                alumno.grabarPersonaBaja(raf);
+
+                posseek = ++poscion * alumno.tamaño();
 
             }
 
             raf.close();
 
-        } catch (FileNotFoundException fnf) {
+            do {
+                System.out.print("\n[+] Dar de baja a otro alumno (S->Si | N->No): ");
+                otro = Character.toUpperCase(k.rChar());
 
-            System.out.print("\n[!!] Error: " + fnf.getLocalizedMessage());
+            } while ("SN".indexOf(otro) == -1);
 
-        } catch (EOFException eof) {
-
-            System.out.print("\n[!!] Error: " + eof.getLocalizedMessage());
-
-        } catch (IOException ioe) {
-
-            System.out.print("\n[!!] Error: " + ioe.getLocalizedMessage());
+            if (otro == 'N')
+                exit = true;
 
         }
 
@@ -595,7 +598,7 @@ public class Main {
 
                 case 'B':
 
-                    bajas();
+                    Bajas();
                     System.out.println();
                     break;
 
