@@ -184,7 +184,7 @@ public class Main {
         boolean exit = false;
         char otro = 'S';
 
-        RandomAccessFile raf = new RandomAccessFile(data, "rw");
+        RandomAccessFile raf = new RandomAccessFile(data, "rws");
 
         // limpiar lista
         alumnos.clear();
@@ -324,7 +324,7 @@ public class Main {
     static void Bajas() throws Exception {
 
         boolean exit = false;
-        int numero = 0, poscion = 0, posseek = 0;
+        int numero = 0;
         char otro = 'N';
 
         while (!exit) {
