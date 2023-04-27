@@ -7,9 +7,6 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
-
-import javax.swing.text.Position;
 
 public class Main {
 
@@ -67,11 +64,7 @@ public class Main {
 
                 if (numero == 0) {
 
-                    raf.readUTF();
-                    raf.readInt();
-                    raf.readInt();
-                    raf.readInt();
-                    raf.readChar();
+                    alumno.leerPers4(raf);
 
                 } else {
 
@@ -133,10 +126,12 @@ public class Main {
 
             exists = compararNumero(numero);
 
-            if (exists)
+            if (numero == Integer.MIN_VALUE)
+                System.out.print("[!!] Número invállido....\n");
+            else if (exists)
                 System.out.print("[!!] Este número ya está registrado....\n");
 
-        } while (exists);
+        } while (exists || numero == Integer.MIN_VALUE);
 
         do {
 
@@ -223,12 +218,7 @@ public class Main {
 
         for (alumno alum : alumnos) {
 
-            raf.writeInt(alum.getNumero());
-            raf.writeUTF(alum.getNombre());
-            raf.writeInt(alum.getNota1());
-            raf.writeInt(alum.getNota2());
-            raf.writeInt(alum.getNota3());
-            raf.writeChar(alum.getApto());
+            alumno.grabarPersona(raf, alum);
 
         }
 
@@ -236,12 +226,11 @@ public class Main {
 
     }
 
-    static void Listados() {
+    static void Listados() throws Exception {
 
         int posicion = 0, numero = 0, posseek = 0, nota1 = 0, nota2 = 0, nota3 = 0, pagina = 1, linea = 0;
         String name = "";
         char apto = ' ';
-        boolean nuevaPag = false;
 
         System.out.print("\nNumero:\t\tNombre:\t\t\tNota1:\t\tNota2:\t\tNota3:\t\tApto:\t\tPágina: 1\n");
         for (int i = 0; i < 113; i++) {
@@ -275,11 +264,7 @@ public class Main {
 
                 if (numero == 0) {
 
-                    raf.readUTF();
-                    raf.readInt();
-                    raf.readInt();
-                    raf.readInt();
-                    raf.readChar();
+                    alumno.leerPers4(raf);
 
                 } else {
 
@@ -386,11 +371,7 @@ public class Main {
             raf.seek(posseek);
 
             nraf = raf.readInt();
-            raf.readUTF();
-            raf.readInt();
-            raf.readInt();
-            raf.readInt();
-            raf.readChar();
+            alumno.leerPers4(raf);
 
             if (numero == nraf)
                 break;
@@ -408,6 +389,7 @@ public class Main {
     static void Consultas() {
 
         int posicion = 0, numero = 0, posseek = 0, numbusc;
+        String nombre = "";
 
         do {
 
@@ -429,15 +411,17 @@ public class Main {
                 raf.seek(posseek);
 
                 numero = raf.readInt();
+                nombre = raf.readUTF();
 
                 if (numero == numbusc) {
 
-                    System.out.print("\n[!] El alumno con el número " + numbusc + " está en el archivo.... ");
+                    System.out.print(
+                            "\n[!] El alumno con nombre: " + nombre.trim() + " y número " + numbusc
+                                    + " está en el archivo.... ");
                     break;
 
                 }
 
-                raf.readUTF();
                 raf.readInt();
                 raf.readInt();
                 raf.readInt();
@@ -452,13 +436,177 @@ public class Main {
         } catch (FileNotFoundException fnf) {
 
         } catch (EOFException e) {
+
         } catch (IOException ioe) {
 
         }
 
     }
 
-    static alumno pregDatos(int numant) throws Exception {
+    static alumno pregDatos(int numant, alumno alum) throws Exception {
+
+        alumno aux = new alumno();
+
+        boolean exit = false;
+        int numero = 0, nota1 = 0, nota2 = 0, nota3 = 0;
+        String nombre = "";
+        char apto = 'N', op = ' ';
+
+        while (!exit) {
+
+            System.out.println(
+                    "\nNumero:\t\tNombre:\t\t\tNota1:\t\tNota2:\t\tNota3:\t\tApto:\t\tPágina:");
+            for (int i = 0; i < 113; i++) {
+
+                System.out.print("-");
+
+            }
+            if (alum.getNombre().length() > 8) {
+
+                System.out.print("\n" + alum.getNumero() + "\t\t" + alum.getNombre().trim().toUpperCase().charAt(0)
+                        + alum.getNombre().substring(1, alum.getNombre().length()).toLowerCase() + "\t"
+                        + alum.getNota1() + "\t\t" + alum.getNota2() + "\t\t" + alum.getNota3() + "\t\t"
+                        + alum.getApto());
+
+            } else {
+
+                System.out.print("\n" + alum.getNumero() + "\t\t" + alum.getNombre().toUpperCase().charAt(0)
+                        + alum.getNombre().substring(1, alum.getNombre().length()).toLowerCase().trim() + "\t\t"
+                        + alum.getNota1() + "\t\t" + alum.getNota2() + "\t\t" + alum.getNota3() + "\t\t"
+                        + alum.getApto());
+
+            }
+
+            do {
+                System.out.print("\n\n----------------------------MENÚ---------------------------- ");
+                System.out.print("\n[N]---------> Número");
+                System.out.print("\n[U]---------> Nombre alumno");
+                System.out.print("\n[1]---------> Nota 1ª Evaluación");
+                System.out.print("\n[2]---------> Nota 2ª Evaluación");
+                System.out.print("\n[3]---------> Nota 3ª Evaluación");
+                System.out.print("\n[T]---------> Cambiar todo");
+                System.out.println("\n[E]---------> Exit");
+                System.out.println();
+                System.out.print("[OPCION]----> ");
+                op = Character.toUpperCase(k.rChar());
+
+            } while ("NU123TE".indexOf(op) == -1);
+
+            switch (op) {
+
+                case 'N':
+
+                    do {
+
+                        System.out.print("\n[+] Introduce el nuevo numero del alumno: ");
+                        numero = k.rInt();
+
+                        if (numant == numero)
+                            break;
+
+                    } while ((compararNumero(numero)) || numero == Integer.MIN_VALUE);
+                    if (alum.getNota1() >= 5 && alum.getNota2() >= 5 && alum.getNota3() >= 5) {
+
+                        apto = 'S';
+
+                    }
+
+                    aux = new alumno(numero, alum.getNombre(), alum.getNota1(), alum.getNota2(), alum.getNota3(), apto);
+
+                    break;
+
+                case 'U':
+
+                    do {
+
+                        System.out.print("\n[+] Introduce el nuevo nombre del alumno (MAX 20 Caracteres): ");
+                        nombre = k.rString();
+
+                    } while (nombre.length() > 20);
+                    if (alum.getNota1() >= 5 && alum.getNota2() >= 5 && alum.getNota3() >= 5) {
+
+                        apto = 'S';
+
+                    }
+
+                    aux = new alumno(alum.getNumero(), nombre, alum.getNota1(), alum.getNota2(), alum.getNota3(), apto);
+                    break;
+
+                case '1':
+
+                    do {
+
+                        do {
+
+                            System.out.print("\n[+] Introduce la nueva nota de la 1ª evaluación: ");
+                            nota1 = k.rInt();
+
+                        } while (nota1 == Integer.MIN_VALUE);
+
+                    } while (nota1 < 1 || nota1 > 10);
+                    if (nota1 >= 5 && alum.getNota2() >= 5 && alum.getNota3() >= 5) {
+
+                        apto = 'S';
+
+                    }
+
+                    aux = new alumno(alum.getNumero(), alum.getNombre(), nota1, alum.getNota2(), alum.getNota3(), apto);
+                    break;
+
+                case '2':
+
+                    do {
+
+                        System.out.print("\n[+] Introduce la nueva nota de la 2ª evaluación: ");
+                        nota2 = k.rInt();
+
+                    } while (nota2 < 1 || nota2 > 10 || nota2 == Integer.MIN_VALUE);
+                    if (alum.getNota1() >= 5 && nota2 >= 5 && alum.getNota3() >= 5) {
+
+                        apto = 'S';
+
+                    }
+
+                    aux = new alumno(alum.getNumero(), alum.getNombre(), alum.getNota1(), nota2, alum.getNota3(), apto);
+                    break;
+
+                case '3':
+
+                    do {
+
+                        System.out.print("\n[+] Introduce la nueva nota de la 3ª evaluación: ");
+                        nota3 = k.rInt();
+
+                    } while (nota3 < 1 || nota3 > 10 || nota3 == Integer.MIN_VALUE);
+                    if (alum.getNota1() >= 5 && alum.getNota2() >= 5 && nota3 >= 5) {
+
+                        apto = 'S';
+
+                    }
+
+                    aux = new alumno(alum.getNumero(), alum.getNombre(), alum.getNota1(), alum.getNota2(), nota3, apto);
+                    break;
+
+                case 'T':
+
+                    aux = todo(numant);
+                    break;
+
+                default:
+
+                    exit = true;
+                    break;
+            }
+
+            alum = aux;
+
+        }
+
+        return alum;
+
+    }
+
+    static alumno todo(int numant) throws Exception {
 
         alumno aux = new alumno();
 
@@ -541,35 +689,63 @@ public class Main {
 
     static void Modificaciones() throws Exception {
 
-        int numbusc = 0;
+        ArrayList<alumno> actualizar = new ArrayList<>();
 
-        alumnos.clear();
+        int numbusc = 0, poscion = 0, posseek = 0;
+        boolean exit = false;
 
-        llenarLista();
+        while (!exit) {
 
-        Listados();
+            alumnos.clear();
 
-        do {
+            llenarLista();
 
-            System.out.print("\n\n[+] Número del alumno a modificar: ");
-            numbusc = k.rInt();
+            Listados();
 
-        } while (numbusc == Integer.MIN_VALUE || numbusc == 0 || !notexist(numbusc));
+            do {
 
-        alumno aux = pregDatos(numbusc);
+                System.out.print("\n\n[+] Número del alumno a modificar: ");
+                numbusc = k.rInt();
 
-        RandomAccessFile raf = new RandomAccessFile(data, "rw");
+            } while (numbusc == Integer.MIN_VALUE || numbusc == 0 || !notexist(numbusc));
 
-        raf.seek((numbusc - 1) * alumno.tamaño());
+            alumno aux = new alumno(0, " ", 0, 0, 0, 'N');
 
-        raf.writeInt(aux.getNumero());
-        raf.writeUTF(aux.getNombre());
-        raf.writeInt(aux.getNota1());
-        raf.writeInt(aux.getNota2());
-        raf.writeInt(aux.getNota3());
-        raf.writeChar(aux.getApto());
+            for (alumno p : alumnos) {
 
-        raf.close();
+                if (p.getNumero() != numbusc)
+                    actualizar.add(p);
+                else {
+                    aux = pregDatos(numbusc, p);
+
+                    if (aux.getNumero() == 0) {
+
+                        aux = p;
+
+                    }
+
+                }
+
+            }
+
+            actualizar.add(aux);
+
+            Collections.sort(actualizar);
+
+            RandomAccessFile raf = new RandomAccessFile(data, "rw");
+
+            for (alumno alum : actualizar) {
+
+                raf.seek(posseek);
+
+                alumno.grabarPersona(raf, alum);
+
+                posseek = ++poscion * alumno.tamaño();
+            }
+
+            raf.close();
+
+        }
 
     }
 

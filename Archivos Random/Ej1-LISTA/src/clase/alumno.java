@@ -128,4 +128,25 @@ public class alumno implements Comparable<alumno> {
 
     }
 
+    public static void grabarPersona(RandomAccessFile raf, alumno aux) throws Exception {
+
+        raf.writeInt(aux.getNumero());
+        raf.writeUTF(aux.getNombre());
+        raf.writeInt(aux.getNota1());
+        raf.writeInt(aux.getNota2());
+        raf.writeInt(aux.getNota3());
+        raf.writeChar(aux.getApto());
+
+    }
+
+    public static void leerPers4(RandomAccessFile raf) throws Exception {
+
+        raf.readUTF();
+        raf.readInt();
+        raf.readInt();
+        raf.readInt();
+        raf.readChar();
+
+    }
+
 }
