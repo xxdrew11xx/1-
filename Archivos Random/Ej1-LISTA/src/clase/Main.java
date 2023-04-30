@@ -42,9 +42,13 @@ public class Main {
                 op = 'J';
                 break;
 
+            } catch (StringIndexOutOfBoundsException siob) {
+
+                op = 'J';
+
             }
 
-        } while ("ABMCLE".indexOf(op) == -1);
+        } while ("ABMCLE".indexOf(op) == -1 || op == '\n');
 
         return op;
     }
@@ -112,26 +116,11 @@ public class Main {
 
     }
 
-    static void nuevasAltas() throws IOException {
+    static void nuevasAltas(int numero) throws IOException {
 
-        int numero = 0, nota1 = 0, nota2 = 0, nota3 = 0;
+        int nota1 = 0, nota2 = 0, nota3 = 0;
         String nombre = "";
         char apto = 'N';
-        boolean exists = false;
-
-        do {
-
-            System.out.print("\n[+] Introduce el numero del alumno: ");
-            numero = k.rInt();
-
-            exists = compararNumero(numero);
-
-            if (numero == Integer.MIN_VALUE)
-                System.out.print("[!!] Número invállido....\n");
-            else if (exists)
-                System.out.print("[!!] Este número ya está registrado....\n");
-
-        } while (exists || numero == Integer.MIN_VALUE);
 
         do {
 
@@ -176,8 +165,9 @@ public class Main {
     }
 
     static void altas() throws Exception {
-        boolean exit = false;
-        char otro = 'S';
+        boolean exit = false, exists;
+        char otro = 'S', numeroc = ' ';
+        int numero = 0;
 
         RandomAccessFile raf = new RandomAccessFile(data, "rws");
 
@@ -195,7 +185,26 @@ public class Main {
 
         while (!exit) {
 
-            nuevasAltas();
+            do {
+
+                System.out.print("\n[+] Introduce el numero del alumno (E-> Salir): ");
+                numeroc = Character.toUpperCase(k.rChar());
+
+                if (numeroc == 'E')
+                    main(null);
+
+                numero = Integer.parseInt(Character.toString(numeroc));
+
+                exists = compararNumero(numero);
+
+                if (numero == Integer.MIN_VALUE)
+                    System.out.print("[!!] Número invállido....\n");
+                else if (exists)
+                    System.out.print("[!!] Este número ya está registrado....\n");
+
+            } while (exists || numero == Integer.MIN_VALUE);
+
+            nuevasAltas(numero);
 
             do {
                 System.out.print("\n[+] Introudce otro alumno (S->Si | N->No): ");
@@ -310,7 +319,7 @@ public class Main {
 
         boolean exit = false;
         int numero = 0;
-        char otro = 'N';
+        char otro = 'N', numeroc = ' ';
 
         while (!exit) {
 
@@ -322,12 +331,13 @@ public class Main {
 
             do {
 
-                do {
+                System.out.print("\n\n[+] Introduce el numero del alumno (E-> Salir): ");
+                numeroc = Character.toUpperCase(k.rChar());
 
-                    System.out.print("\n\n[+] Alumno a dar de baja (Número): ");
-                    numero = k.rInt();
+                if (numeroc == 'E')
+                    main(null);
 
-                } while (numero == Integer.MIN_VALUE || numero == 0);
+                numero = Integer.parseInt(Character.toString(numeroc));
 
                 exit = compararNumero(numero);
 
@@ -386,59 +396,63 @@ public class Main {
 
     }
 
-    static void Consultas() {
+    static void Consultas() throws Exception {
 
-        int posicion = 0, numero = 0, posseek = 0, numbusc;
+        int posicion = 0, numero = 0, posseek = 0, numbusc = 0;
         String nombre = "";
+        char numc = ' ';
 
-        do {
+        while (true) {
 
-            System.out.print("\n[+] Introduce el número del alumno a buscar: ");
+            do {
+
+                System.out.print("\n[+] Número del alumno a modificar (E-> Salir): ");
+                numc = Character.toUpperCase(k.rChar());
+
+                if (numc == 'E')
+                    main(null);
+
+                numbusc = Integer.parseInt(Character.toString(numc));
+
+            } while (numbusc == 0 || !notexist(numbusc));
+
             try {
-                numbusc = k.rInt();
-            } catch (IOException e) {
-                numbusc = Integer.MIN_VALUE;
-                break;
-            }
+                RandomAccessFile raf = new RandomAccessFile(data, "r");
 
-        } while (numbusc == Integer.MIN_VALUE || numbusc == 0);
+                while ((posseek < raf.length())) {
 
-        try {
-            RandomAccessFile raf = new RandomAccessFile(data, "r");
+                    raf.seek(posseek);
 
-            while ((posseek < raf.length())) {
+                    numero = raf.readInt();
+                    nombre = raf.readUTF();
 
-                raf.seek(posseek);
+                    if (numero == numbusc) {
 
-                numero = raf.readInt();
-                nombre = raf.readUTF();
+                        System.out.print(
+                                "\n[!] El alumno con nombre: " + nombre.trim() + " y número " + numbusc
+                                        + " está en el archivo.... ");
+                        break;
 
-                if (numero == numbusc) {
+                    }
 
-                    System.out.print(
-                            "\n[!] El alumno con nombre: " + nombre.trim() + " y número " + numbusc
-                                    + " está en el archivo.... ");
-                    break;
+                    raf.readInt();
+                    raf.readInt();
+                    raf.readInt();
+                    raf.readChar();
+
+                    posseek = ++posicion * alumno.tamaño();
 
                 }
 
-                raf.readInt();
-                raf.readInt();
-                raf.readInt();
-                raf.readChar();
+                raf.close();
 
-                posseek = ++posicion * alumno.tamaño();
+            } catch (FileNotFoundException fnf) {
+
+            } catch (EOFException e) {
+
+            } catch (IOException ioe) {
 
             }
-
-            raf.close();
-
-        } catch (FileNotFoundException fnf) {
-
-        } catch (EOFException e) {
-
-        } catch (IOException ioe) {
-
         }
 
     }
@@ -693,10 +707,12 @@ public class Main {
 
         int numbusc = 0, poscion = 0, posseek = 0;
         boolean exit = false;
+        char numc = ' ';
 
         while (!exit) {
 
             alumnos.clear();
+            actualizar.clear();
 
             llenarLista();
 
@@ -704,8 +720,13 @@ public class Main {
 
             do {
 
-                System.out.print("\n\n[+] Número del alumno a modificar: ");
-                numbusc = k.rInt();
+                System.out.print("\n\n[+] Número del alumno a modificar (E-> Salir): ");
+                numc = Character.toUpperCase(k.rChar());
+
+                if (numc == 'E')
+                    main(null);
+
+                numbusc = Integer.parseInt(Character.toString(numc));
 
             } while (numbusc == Integer.MIN_VALUE || numbusc == 0 || !notexist(numbusc));
 
@@ -744,6 +765,9 @@ public class Main {
             }
 
             raf.close();
+
+            posseek = 0;
+            poscion = 0;
 
         }
 
