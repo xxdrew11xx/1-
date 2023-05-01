@@ -248,6 +248,7 @@ public class Main {
 
             if (linea % 6 == 0 && numero != 0) {
                 pagina++;
+                linea = 1;
                 System.out.println();
                 if (modo == 'p') {
 
@@ -328,24 +329,25 @@ public class Main {
 
         boolean exit = false;
         int numero = 0;
-        char otro = 'N', numeroc = ' ', confirm = ' ';
+        char otro = 'N', confirm = ' ';
+        String numeroc = "";
 
         while (!exit) {
 
             alumnos.clear();
             llenarLista();
 
-            Listados('s', ' ');
+            Listados(' ', ' ');
 
             do {
 
                 System.out.print("\n\n[+] Introduce el numero del alumno (E-> Salir): ");
-                numeroc = Character.toUpperCase(k.rChar());
+                numeroc = k.rString().toUpperCase();
 
-                if (numeroc == 'E')
+                if (numeroc.charAt(0) == 'E')
                     break;
 
-                numero = Integer.parseInt(Character.toString(numeroc));
+                numero = Integer.parseInt(numeroc);
                 exit = compararNumero(numero);
 
                 if (!exit)
@@ -353,7 +355,7 @@ public class Main {
 
             } while (!exit);
 
-            if (numeroc == 'E')
+            if (numeroc.charAt(0) == 'E')
                 break;
 
             System.out.print("[?] Confirmar baja del alumno (S->Si | N->No): ");
@@ -414,23 +416,23 @@ public class Main {
     static void Consultas() throws Exception {
 
         int posicion = 0, numero = 0, posseek = 0, numbusc = 0;
-        char numc = ' ';
+        String numc = " ";
 
         while (true) {
 
             do {
 
                 System.out.print("\n[+] Número del alumno a consultar (E-> Salir): ");
-                numc = Character.toUpperCase(k.rChar());
+                numc = k.rString().toUpperCase();
 
-                if (numc == 'E')
+                if (numc.charAt(0) == 'E')
                     break;
 
-                numbusc = Integer.parseInt(Character.toString(numc));
+                numbusc = Integer.parseInt((numc));
 
             } while (numbusc == 0 || !notexist(numbusc));
 
-            if (numc == 'E')
+            if (numc.charAt(0) == 'E')
                 break;
 
             try {
