@@ -5,7 +5,8 @@ import java.io.RandomAccessFile;
 
 public class alumno implements Comparable<alumno> {
 
-    private int numero = 0, nota1 = 0, nota2 = 0, nota3 = 0;
+    private int numero = 0;
+    private float nota1 = 0, nota2 = 0, nota3 = 0;
     private String nombre = "";
     private char apto = 'N';
 
@@ -14,14 +15,17 @@ public class alumno implements Comparable<alumno> {
     alumno() {
     }
 
-    alumno(int number, String name, int mark1, int mark2, int mark3, char pass) {
+    alumno(int number, String name, float mark1, float mark2, float mark3) {
 
         this.numero = number;
         this.nombre = NameSpace(name);
         this.nota1 = mark1;
         this.nota2 = mark2;
         this.nota3 = mark3;
-        this.apto = pass;
+        if (mark1 >= 4.5 && mark2 >= 4.5 && mark3 >= 4.5)
+            this.apto = 'S';
+        else
+            this.apto = 'N';
 
     }
 
@@ -35,15 +39,15 @@ public class alumno implements Comparable<alumno> {
         return nombre;
     }
 
-    public int getNota1() {
+    public float getNota1() {
         return nota1;
     }
 
-    public int getNota2() {
+    public float getNota2() {
         return nota2;
     }
 
-    public int getNota3() {
+    public float getNota3() {
         return nota3;
     }
 
@@ -61,15 +65,15 @@ public class alumno implements Comparable<alumno> {
         this.nombre = nombre;
     }
 
-    public void setNota1(int nota1) {
+    public void setNota1(float nota1) {
         this.nota1 = nota1;
     }
 
-    public void setNota2(int nota2) {
+    public void setNota2(float nota2) {
         this.nota2 = nota2;
     }
 
-    public void setNota3(int nota3) {
+    public void setNota3(float nota3) {
         this.nota3 = nota3;
     }
 
@@ -117,13 +121,13 @@ public class alumno implements Comparable<alumno> {
 
     public static void grabarPersonaBaja(RandomAccessFile raf) throws IOException {
 
-        alumno aux = new alumno(0, " ", 0, 0, 0, 'N');
+        alumno aux = new alumno(0, " ", 0, 0, 0);
 
         raf.writeInt(aux.getNumero());
         raf.writeUTF(aux.getNombre());
-        raf.writeInt(aux.getNota1());
-        raf.writeInt(aux.getNota2());
-        raf.writeInt(aux.getNota3());
+        raf.writeFloat(aux.getNota1());
+        raf.writeFloat(aux.getNota2());
+        raf.writeFloat(aux.getNota3());
         raf.writeChar(aux.getApto());
 
     }
@@ -132,9 +136,9 @@ public class alumno implements Comparable<alumno> {
 
         raf.writeInt(aux.getNumero());
         raf.writeUTF(aux.getNombre());
-        raf.writeInt(aux.getNota1());
-        raf.writeInt(aux.getNota2());
-        raf.writeInt(aux.getNota3());
+        raf.writeFloat(aux.getNota1());
+        raf.writeFloat(aux.getNota2());
+        raf.writeFloat(aux.getNota3());
         raf.writeChar(aux.getApto());
 
     }
@@ -142,9 +146,9 @@ public class alumno implements Comparable<alumno> {
     public static void leerPers4(RandomAccessFile raf) throws Exception {
 
         raf.readUTF();
-        raf.readInt();
-        raf.readInt();
-        raf.readInt();
+        raf.readFloat();
+        raf.readFloat();
+        raf.readFloat();
         raf.readChar();
 
     }

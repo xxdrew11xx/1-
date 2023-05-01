@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -57,46 +58,27 @@ public class Main {
 
         int posicion = 0, numero = 0, posseek = 0;
 
-        try {
-            RandomAccessFile raf = new RandomAccessFile(data, "r");
+        RandomAccessFile raf = new RandomAccessFile(data, "r");
 
-            while ((posseek < raf.length())) {
+        while ((posseek < raf.length())) {
 
-                raf.seek(posseek);
+            raf.seek(posseek);
 
-                numero = raf.readInt();
+            numero = raf.readInt();
 
-                if (numero == 0) {
+            if (numero != 0)
+                alumnos.add(new alumno(numero, raf.readUTF(), raf.readFloat(), raf.readFloat(), raf.readFloat()));
 
-                    alumno.leerPers4(raf);
-
-                } else {
-
-                    alumnos.add(new alumno(numero, raf.readUTF(), raf.readInt(), raf.readInt(), raf.readInt(),
-                            raf.readChar()));
-
-                }
-
-                posseek = ++posicion * alumno.tamaño();
-
-            }
-
-            raf.close();
-
-        } catch (FileNotFoundException fnf) {
-
-        } catch (EOFException e) {
-            // TODO: handle exception
-        } catch (IOException ioe) {
+            posseek = ++posicion * alumno.tamaño();
 
         }
 
+        raf.close();
     }
 
     static boolean compararNumero(int numero) {
 
         boolean exists = false;
-
         alumno a = new alumno();
 
         for (int i = 0; i < alumnos.size(); i++) {
@@ -116,11 +98,10 @@ public class Main {
 
     }
 
-    static void nuevasAltas(int numero) throws IOException {
+    static void nuevoAlumno(int numero) throws IOException {
 
-        int nota1 = 0, nota2 = 0, nota3 = 0;
+        float nota1 = 0, nota2 = 0, nota3 = 0;
         String nombre = "";
-        char apto = 'N';
 
         do {
 
@@ -134,7 +115,7 @@ public class Main {
             do {
 
                 System.out.print("\n[+] Introduce la nota de la 1ª evaluación: ");
-                nota1 = k.rInt();
+                nota1 = k.rFloat();
 
             } while (nota1 == Integer.MIN_VALUE);
 
@@ -143,33 +124,27 @@ public class Main {
         do {
 
             System.out.print("\n[+] Introduce la nota de la 2ª evaluación: ");
-            nota2 = k.rInt();
+            nota2 = k.rFloat();
 
         } while (nota2 < 1 || nota2 > 10);
 
         do {
 
             System.out.print("\n[+] Introduce la nota de la 3ª evaluación: ");
-            nota3 = k.rInt();
+            nota3 = k.rFloat();
 
         } while (nota3 < 1 || nota3 > 10);
 
-        if (nota1 >= 5 && nota2 >= 5 && nota3 >= 5) {
-
-            apto = 'S';
-
-        }
-
-        alumnos.add(new alumno(numero, nombre, nota1, nota2, nota3, apto));
+        alumnos.add(new alumno(numero, nombre, nota1, nota2, nota3));
 
     }
 
     static void altas() throws Exception {
-        boolean exit = false, exists;
+        boolean exit = false, exists = false;
         char otro = 'S', numeroc = ' ';
         int numero = 0;
 
-        RandomAccessFile raf = new RandomAccessFile(data, "rws");
+        RandomAccessFile raf = new RandomAccessFile(data, "rw");
 
         // limpiar lista
         alumnos.clear();
@@ -191,23 +166,32 @@ public class Main {
                 numeroc = Character.toUpperCase(k.rChar());
 
                 if (numeroc == 'E')
-                    main(null);
+                    break;
 
-                numero = Integer.parseInt(Character.toString(numeroc));
+                try {
 
-                exists = compararNumero(numero);
+                    numero = Integer.parseInt(Character.toString(numeroc));
+                    exists = compararNumero(numero);
+
+                } catch (NumberFormatException e) {
+                    numero = Integer.MIN_VALUE;
+                }
 
                 if (numero == Integer.MIN_VALUE)
                     System.out.print("[!!] Número invállido....\n");
+
                 else if (exists)
                     System.out.print("[!!] Este número ya está registrado....\n");
 
             } while (exists || numero == Integer.MIN_VALUE);
 
-            nuevasAltas(numero);
+            if (numeroc == 'E')
+                break;
+
+            nuevoAlumno(numero);
 
             do {
-                System.out.print("\n[+] Introudce otro alumno (S->Si | N->No): ");
+                System.out.print("\n[+] Introduce otro alumno (S->Si | N->No): ");
                 otro = Character.toUpperCase(k.rChar());
 
             } while ("SN".indexOf(otro) == -1);
@@ -237,81 +221,95 @@ public class Main {
 
     static void Listados() throws Exception {
 
-        int posicion = 0, numero = 0, posseek = 0, nota1 = 0, nota2 = 0, nota3 = 0, pagina = 1, linea = 0;
+        DecimalFormat formato = new DecimalFormat("#.##");
+
+        int posicion = 0, numero = 0, posseek = 0, pagina = 1, linea = 0, totalAprobados = 0;
+        float nota1 = 0, nota2 = 0, nota3 = 0;
         String name = "";
         char apto = ' ';
 
-        System.out.print("\nNumero:\t\tNombre:\t\t\tNota1:\t\tNota2:\t\tNota3:\t\tApto:\t\tPágina: 1\n");
-        for (int i = 0; i < 113; i++) {
+        System.out.print("\nNumero:\t\tNombre:\t\t\tNota1:\t\tNota2:\t\tNota3:\t\tApto:\t\tMedia:\t\tPágina: 1\n");
+        for (int i = 0; i < 129; i++) {
 
             System.out.print("-");
 
         }
 
-        try {
-            RandomAccessFile raf = new RandomAccessFile(data, "r");
+        RandomAccessFile raf = new RandomAccessFile(data, "r");
 
-            while ((posseek < raf.length())) {
+        while ((posseek < raf.length())) {
 
-                raf.seek(posseek);
-                linea++;
+            raf.seek(posseek);
+            linea++;
 
-                numero = raf.readInt();
+            numero = raf.readInt();
 
-                if (linea % 6 == 0 && numero != 0) {
-                    pagina++;
-                    System.out.println();
-                    System.out.println(
-                            "\nNumero:\t\tNombre:\t\t\tNota1:\t\tNota2:\t\tNota3:\t\tApto:\t\tPágina:" + pagina);
-                    for (int i = 0; i < 113; i++) {
+            if (linea % 6 == 0 && numero != 0) {
+                pagina++;
+                System.out.println();
+                System.out.println(
+                        "\nNumero:\t\tNombre:\t\t\tNota1:\t\tNota2:\t\tNota3:\t\tApto:\t\tMedia:\t\tPágina:" + pagina);
+                for (int i = 0; i < 129; i++) {
 
-                        System.out.print("-");
-
-                    }
+                    System.out.print("-");
 
                 }
-
-                if (numero == 0) {
-
-                    alumno.leerPers4(raf);
-
-                } else {
-
-                    name = raf.readUTF();
-                    nota1 = raf.readInt();
-                    nota2 = raf.readInt();
-                    nota3 = raf.readInt();
-                    apto = raf.readChar();
-
-                    if (name.length() > 8) {
-
-                        System.out.print("\n" + numero + "\t\t" + name.trim().toUpperCase().charAt(0)
-                                + name.substring(1, name.length()).toLowerCase() + "\t"
-                                + nota1 + "\t\t" + nota2 + "\t\t" + nota3 + "\t\t" + apto);
-
-                    } else {
-
-                        System.out.print("\n" + numero + "\t\t" + name.toUpperCase().charAt(0)
-                                + name.substring(1, name.length()).toLowerCase().trim() + "\t\t"
-                                + nota1 + "\t\t" + nota2 + "\t\t" + nota3 + "\t\t" + apto);
-
-                    }
-
-                }
-
-                posseek = ++posicion * alumno.tamaño();
 
             }
 
-            raf.close();
+            if (numero == 0) {
 
-        } catch (FileNotFoundException fnf) {
+                alumno.leerPers4(raf);
 
-        } catch (EOFException e) {
-            // TODO: handle exception
-        } catch (IOException ioe) {
+            } else {
+
+                name = raf.readUTF();
+                nota1 = raf.readFloat();
+                nota2 = raf.readFloat();
+                nota3 = raf.readFloat();
+                apto = raf.readChar();
+
+                if (name.length() > 8) {
+
+                    if (nota1 >= 4.5 && nota2 >= 4.5 && nota3 >= 4.5) {
+                        System.out.print("\n" + numero + "\t\t" + name.trim().toUpperCase().charAt(0)
+                                + name.substring(1, name.length()).toLowerCase() + "\t" + nota1 + "\t\t" + nota2
+                                + "\t\t" + nota3 + "\t\t" + apto + "\t\t"
+                                + formato.format(((nota1 + nota2 + nota3) / (float) 3)));
+
+                        totalAprobados++;
+                    }
+
+                    else
+                        System.out.print("\n" + numero + "\t\t" + name.trim().toUpperCase().charAt(0)
+                                + name.substring(1, name.length()).toLowerCase() + "\t" + nota1 + "\t\t" + nota2
+                                + "\t\t" + nota3 + "\t\t" + apto + "\t\t" + "-");
+
+                } else {
+
+                    if (nota1 >= 4.5 && nota2 >= 4.5 && nota3 >= 4.5) {
+                        System.out.print("\n" + numero + "\t\t" + name.trim().toUpperCase().charAt(0)
+                                + name.substring(1, name.length()).toLowerCase() + "\t\t" + nota1 + "\t\t" + nota2
+                                + "\t\t" + nota3 + "\t\t" + apto + "\t\t"
+                                + formato.format(((nota1 + nota2 + nota3) / (float) 3)));
+
+                        totalAprobados++;
+                    } else
+                        System.out.print("\n" + numero + "\t\t" + name.trim().toUpperCase().charAt(0)
+                                + name.substring(1, name.length()).toLowerCase() + "\t" + nota1 + "\t\t" + nota2
+                                + "\t\t" + nota3 + "\t\t" + apto + "\t\t" + "-");
+
+                }
+
+            }
+
+            posseek = ++posicion * alumno.tamaño();
 
         }
+
+        raf.close();
+
+        System.out.print("\n\n[+] Total de aprobados listados: " + totalAprobados);
 
     }
 
@@ -319,12 +317,11 @@ public class Main {
 
         boolean exit = false;
         int numero = 0;
-        char otro = 'N', numeroc = ' ';
+        char otro = 'N', numeroc = ' ', confirm = ' ';
 
         while (!exit) {
 
             alumnos.clear();
-
             llenarLista();
 
             Listados();
@@ -335,10 +332,9 @@ public class Main {
                 numeroc = Character.toUpperCase(k.rChar());
 
                 if (numeroc == 'E')
-                    main(null);
+                    break;
 
                 numero = Integer.parseInt(Character.toString(numeroc));
-
                 exit = compararNumero(numero);
 
                 if (!exit)
@@ -346,7 +342,14 @@ public class Main {
 
             } while (!exit);
 
-            exit = false;
+            if (numeroc == 'E')
+                break;
+
+            System.out.print("\n[?] Confirmar baja del alumno (S->Si | N->No): ");
+            confirm = Character.toUpperCase(k.rChar());
+
+            if (confirm == 'N')
+                break;
 
             System.out.print("\n[!] Alumno borrado correctamente....\n");
 
@@ -359,6 +362,7 @@ public class Main {
             raf.close();
 
             do {
+
                 System.out.print("\n[+] Dar de baja a otro alumno (S->Si | N->No): ");
                 otro = Character.toUpperCase(k.rChar());
 
@@ -399,22 +403,30 @@ public class Main {
     static void Consultas() throws Exception {
 
         int posicion = 0, numero = 0, posseek = 0, numbusc = 0;
-        String nombre = "";
         char numc = ' ';
+        boolean exists = true;
 
         while (true) {
 
             do {
 
-                System.out.print("\n[+] Número del alumno a modificar (E-> Salir): ");
+                System.out.print("\n[+] Número del alumno a consultar (E-> Salir): ");
                 numc = Character.toUpperCase(k.rChar());
 
                 if (numc == 'E')
-                    main(null);
+                    break;
 
                 numbusc = Integer.parseInt(Character.toString(numc));
 
-            } while (numbusc == 0 || !notexist(numbusc));
+                exists = notexist(numbusc);
+
+                if (!exists)
+                    System.out.print("[!!] Alumno no encontrado....\n");
+
+            } while (numbusc == 0 || !exists);
+
+            if (numc == 'E')
+                break;
 
             try {
                 RandomAccessFile raf = new RandomAccessFile(data, "r");
@@ -424,20 +436,19 @@ public class Main {
                     raf.seek(posseek);
 
                     numero = raf.readInt();
-                    nombre = raf.readUTF();
 
                     if (numero == numbusc) {
 
                         System.out.print(
-                                "\n[!] El alumno con nombre: " + nombre.trim() + " y número " + numbusc
-                                        + " está en el archivo.... ");
+                                "[!] El alumno con nombre: " + raf.readUTF().trim() + " y número: " + numbusc
+                                        + " está en el archivo....\n");
                         break;
 
                     }
 
-                    raf.readInt();
-                    raf.readInt();
-                    raf.readInt();
+                    raf.readFloat();
+                    raf.readFloat();
+                    raf.readFloat();
                     raf.readChar();
 
                     posseek = ++posicion * alumno.tamaño();
@@ -462,9 +473,10 @@ public class Main {
         alumno aux = new alumno();
 
         boolean exit = false;
-        int numero = 0, nota1 = 0, nota2 = 0, nota3 = 0;
+        int numero = 0;
+        float nota1 = 0, nota2 = 0, nota3 = 0;
         String nombre = "";
-        char apto = 'N', op = ' ';
+        char op = ' ';
 
         while (!exit) {
 
@@ -519,13 +531,8 @@ public class Main {
                             break;
 
                     } while ((compararNumero(numero)) || numero == Integer.MIN_VALUE);
-                    if (alum.getNota1() >= 5 && alum.getNota2() >= 5 && alum.getNota3() >= 5) {
 
-                        apto = 'S';
-
-                    }
-
-                    aux = new alumno(numero, alum.getNombre(), alum.getNota1(), alum.getNota2(), alum.getNota3(), apto);
+                    aux = new alumno(numero, alum.getNombre(), alum.getNota1(), alum.getNota2(), alum.getNota3());
 
                     break;
 
@@ -537,13 +544,8 @@ public class Main {
                         nombre = k.rString();
 
                     } while (nombre.length() > 20);
-                    if (alum.getNota1() >= 5 && alum.getNota2() >= 5 && alum.getNota3() >= 5) {
 
-                        apto = 'S';
-
-                    }
-
-                    aux = new alumno(alum.getNumero(), nombre, alum.getNota1(), alum.getNota2(), alum.getNota3(), apto);
+                    aux = new alumno(alum.getNumero(), nombre, alum.getNota1(), alum.getNota2(), alum.getNota3());
                     break;
 
                 case '1':
@@ -553,18 +555,13 @@ public class Main {
                         do {
 
                             System.out.print("\n[+] Introduce la nueva nota de la 1ª evaluación: ");
-                            nota1 = k.rInt();
+                            nota1 = k.rFloat();
 
-                        } while (nota1 == Integer.MIN_VALUE);
+                        } while (nota1 == Float.MIN_VALUE);
 
                     } while (nota1 < 1 || nota1 > 10);
-                    if (nota1 >= 5 && alum.getNota2() >= 5 && alum.getNota3() >= 5) {
 
-                        apto = 'S';
-
-                    }
-
-                    aux = new alumno(alum.getNumero(), alum.getNombre(), nota1, alum.getNota2(), alum.getNota3(), apto);
+                    aux = new alumno(alum.getNumero(), alum.getNombre(), nota1, alum.getNota2(), alum.getNota3());
                     break;
 
                 case '2':
@@ -572,16 +569,11 @@ public class Main {
                     do {
 
                         System.out.print("\n[+] Introduce la nueva nota de la 2ª evaluación: ");
-                        nota2 = k.rInt();
+                        nota2 = k.rFloat();
 
-                    } while (nota2 < 1 || nota2 > 10 || nota2 == Integer.MIN_VALUE);
-                    if (alum.getNota1() >= 5 && nota2 >= 5 && alum.getNota3() >= 5) {
+                    } while (nota2 < 1 || nota2 > 10 || nota2 == Float.MIN_VALUE);
 
-                        apto = 'S';
-
-                    }
-
-                    aux = new alumno(alum.getNumero(), alum.getNombre(), alum.getNota1(), nota2, alum.getNota3(), apto);
+                    aux = new alumno(alum.getNumero(), alum.getNombre(), alum.getNota1(), nota2, alum.getNota3());
                     break;
 
                 case '3':
@@ -589,16 +581,11 @@ public class Main {
                     do {
 
                         System.out.print("\n[+] Introduce la nueva nota de la 3ª evaluación: ");
-                        nota3 = k.rInt();
+                        nota3 = k.rFloat();
 
-                    } while (nota3 < 1 || nota3 > 10 || nota3 == Integer.MIN_VALUE);
-                    if (alum.getNota1() >= 5 && alum.getNota2() >= 5 && nota3 >= 5) {
+                    } while (nota3 < 1 || nota3 > 10 || nota3 == Float.MIN_VALUE);
 
-                        apto = 'S';
-
-                    }
-
-                    aux = new alumno(alum.getNumero(), alum.getNombre(), alum.getNota1(), alum.getNota2(), nota3, apto);
+                    aux = new alumno(alum.getNumero(), alum.getNombre(), alum.getNota1(), alum.getNota2(), nota3);
                     break;
 
                 case 'T':
@@ -624,9 +611,9 @@ public class Main {
 
         alumno aux = new alumno();
 
-        int numero = 0, nota1 = 0, nota2 = 0, nota3 = 0;
+        int numero = 0;
+        float nota1 = 0, nota2 = 0, nota3 = 0;
         String nombre = "";
-        char apto = 'N';
 
         do {
 
@@ -650,33 +637,35 @@ public class Main {
             do {
 
                 System.out.print("\n[+] Introduce la nota de la 1ª evaluación: ");
-                nota1 = k.rInt();
+                nota1 = k.rFloat();
 
-            } while (nota1 == Integer.MIN_VALUE);
+            } while (nota1 == Float.MIN_VALUE);
 
         } while (nota1 < 1 || nota1 > 10);
 
         do {
 
-            System.out.print("\n[+] Introduce la nota de la 2ª evaluación: ");
-            nota2 = k.rInt();
+            do {
+
+                System.out.print("\n[+] Introduce la nota de la 2ª evaluación: ");
+                nota1 = k.rFloat();
+
+            } while (nota1 == Float.MIN_VALUE);
 
         } while (nota2 < 1 || nota2 > 10);
 
         do {
 
-            System.out.print("\n[+] Introduce la nota de la 3ª evaluación: ");
-            nota3 = k.rInt();
+            do {
+
+                System.out.print("\n[+] Introduce la nota de la 3ª evaluación: ");
+                nota1 = k.rFloat();
+
+            } while (nota1 == Float.MIN_VALUE);
 
         } while (nota3 < 1 || nota3 > 10);
 
-        if (nota1 >= 5 && nota2 >= 5 && nota3 >= 5) {
-
-            apto = 'S';
-
-        }
-
-        aux = new alumno(numero, nombre, nota1, nota2, nota3, apto);
+        aux = new alumno(numero, nombre, nota1, nota2, nota3);
 
         return aux;
 
@@ -724,13 +713,15 @@ public class Main {
                 numc = Character.toUpperCase(k.rChar());
 
                 if (numc == 'E')
-                    main(null);
-
+                    break;
                 numbusc = Integer.parseInt(Character.toString(numc));
 
             } while (numbusc == Integer.MIN_VALUE || numbusc == 0 || !notexist(numbusc));
 
-            alumno aux = new alumno(0, " ", 0, 0, 0, 'N');
+            if (numc == 'E')
+                break;
+
+            alumno aux = new alumno(0, " ", 0, 0, 0);
 
             for (alumno p : alumnos) {
 
