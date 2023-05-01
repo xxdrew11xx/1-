@@ -8,6 +8,7 @@ import java.io.RandomAccessFile;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Scanner;
 
 public class Main {
 
@@ -141,7 +142,8 @@ public class Main {
 
     static void altas() throws Exception {
         boolean exit = false, exists = false;
-        char otro = 'S', numeroc = ' ';
+        char otro = 'S';
+        String numeroc = "";
         int numero = 0;
 
         RandomAccessFile raf = new RandomAccessFile(data, "rw");
@@ -163,14 +165,14 @@ public class Main {
             do {
 
                 System.out.print("\n[+] Introduce el numero del alumno (E-> Salir): ");
-                numeroc = Character.toUpperCase(k.rChar());
+                numeroc = k.rString().toUpperCase();
 
-                if (numeroc == 'E')
+                if (numeroc.charAt(0) == 'E')
                     break;
 
                 try {
 
-                    numero = Integer.parseInt(Character.toString(numeroc));
+                    numero = Integer.parseInt(numeroc);
                     exists = compararNumero(numero);
 
                 } catch (NumberFormatException e) {
@@ -185,7 +187,7 @@ public class Main {
 
             } while (exists || numero == Integer.MIN_VALUE);
 
-            if (numeroc == 'E')
+            if (numeroc.charAt(0) == 'E')
                 break;
 
             nuevoAlumno(numero);
@@ -219,7 +221,7 @@ public class Main {
 
     }
 
-    static void Listados() throws Exception {
+    static void Listados(char op, char modo) throws Exception {
 
         DecimalFormat formato = new DecimalFormat("#.##");
 
@@ -247,6 +249,13 @@ public class Main {
             if (linea % 6 == 0 && numero != 0) {
                 pagina++;
                 System.out.println();
+                if (modo == 'p') {
+
+                    System.out.print("\n[!] Pulsa INTRO para continuar....");
+                    Scanner sc = new Scanner(System.in);
+                    sc.nextLine();
+
+                }
                 System.out.println(
                         "\nNumero:\t\tNombre:\t\t\tNota1:\t\tNota2:\t\tNota3:\t\tApto:\t\tMedia:\t\tPágina:" + pagina);
                 for (int i = 0; i < 129; i++) {
@@ -260,6 +269,7 @@ public class Main {
             if (numero == 0) {
 
                 alumno.leerPers4(raf);
+                linea--;
 
             } else {
 
@@ -309,7 +319,8 @@ public class Main {
 
         raf.close();
 
-        System.out.print("\n\n[+] Total de aprobados listados: " + totalAprobados);
+        if (op == 's')
+            System.out.print("\n\n[+] Total de aprobados listados: " + totalAprobados);
 
     }
 
@@ -324,7 +335,7 @@ public class Main {
             alumnos.clear();
             llenarLista();
 
-            Listados();
+            Listados('s', ' ');
 
             do {
 
@@ -345,13 +356,13 @@ public class Main {
             if (numeroc == 'E')
                 break;
 
-            System.out.print("\n[?] Confirmar baja del alumno (S->Si | N->No): ");
+            System.out.print("[?] Confirmar baja del alumno (S->Si | N->No): ");
             confirm = Character.toUpperCase(k.rChar());
 
             if (confirm == 'N')
                 break;
 
-            System.out.print("\n[!] Alumno borrado correctamente....\n");
+            System.out.print("\n[!] Alumno borrado correctamente....\n\n");
 
             RandomAccessFile raf = new RandomAccessFile(data, "rws");
 
@@ -404,7 +415,6 @@ public class Main {
 
         int posicion = 0, numero = 0, posseek = 0, numbusc = 0;
         char numc = ' ';
-        boolean exists = true;
 
         while (true) {
 
@@ -418,12 +428,7 @@ public class Main {
 
                 numbusc = Integer.parseInt(Character.toString(numc));
 
-                exists = notexist(numbusc);
-
-                if (!exists)
-                    System.out.print("[!!] Alumno no encontrado....\n");
-
-            } while (numbusc == 0 || !exists);
+            } while (numbusc == 0 || !notexist(numbusc));
 
             if (numc == 'E')
                 break;
@@ -510,13 +515,14 @@ public class Main {
                 System.out.print("\n[1]---------> Nota 1ª Evaluación");
                 System.out.print("\n[2]---------> Nota 2ª Evaluación");
                 System.out.print("\n[3]---------> Nota 3ª Evaluación");
+                System.out.print("\n[4]---------> Cambiar todas las notas");
                 System.out.print("\n[T]---------> Cambiar todo");
                 System.out.println("\n[E]---------> Exit");
                 System.out.println();
                 System.out.print("[OPCION]----> ");
                 op = Character.toUpperCase(k.rChar());
 
-            } while ("NU123TE".indexOf(op) == -1);
+            } while ("NU1234TE".indexOf(op) == -1);
 
             switch (op) {
 
@@ -588,6 +594,11 @@ public class Main {
                     aux = new alumno(alum.getNumero(), alum.getNombre(), alum.getNota1(), alum.getNota2(), nota3);
                     break;
 
+                case '4':
+
+                    aux = notas(alum.getNumero(), alum.getNombre());
+                    break;
+
                 case 'T':
 
                     aux = todo(numant);
@@ -604,6 +615,49 @@ public class Main {
         }
 
         return alum;
+
+    }
+
+    static alumno notas(int numero, String name) throws IOException {
+
+        float nota1 = 0, nota2 = 0, nota3 = 0;
+
+        do {
+
+            do {
+
+                System.out.print("\n[+] Introduce la nueva nota de la 1ª evaluación: ");
+                nota1 = k.rFloat();
+
+            } while (nota1 == Float.MIN_VALUE);
+
+        } while (nota1 < 1 || nota1 > 10);
+
+        do {
+
+            do {
+
+                System.out.print("\n[+] Introduce la nueva nota de la 2ª evaluación: ");
+                nota2 = k.rFloat();
+
+            } while (nota2 == Float.MIN_VALUE);
+
+        } while (nota2 < 1 || nota2 > 10);
+
+        do {
+
+            do {
+
+                System.out.print("\n[+] Introduce la nueva nota de la 3ª evaluación: ");
+                nota3 = k.rFloat();
+
+            } while (nota3 == Float.MIN_VALUE);
+
+        } while (nota3 < 1 || nota3 > 10);
+
+        alumno aux = new alumno(numero, name, nota1, nota2, nota3);
+
+        return aux;
 
     }
 
@@ -671,9 +725,12 @@ public class Main {
 
     }
 
-    static boolean notexist(int numbusc) {
+    static boolean notexist(int numbusc) throws Exception {
 
         boolean exists = false;
+
+        alumnos.clear();
+        llenarLista();
 
         for (alumno a : alumnos) {
 
@@ -685,6 +742,9 @@ public class Main {
             }
 
         }
+
+        if (!exists)
+            System.out.print("[!] Alumno no encontrado....\n");
 
         return exists;
 
@@ -705,11 +765,12 @@ public class Main {
 
             llenarLista();
 
-            Listados();
+            // Listados(' ', ' ');
+            // System.out.println();
 
             do {
 
-                System.out.print("\n\n[+] Número del alumno a modificar (E-> Salir): ");
+                System.out.print("\n[+] Número del alumno a modificar (E-> Salir): ");
                 numc = Character.toUpperCase(k.rChar());
 
                 if (numc == 'E')
@@ -805,7 +866,7 @@ public class Main {
 
                 case 'L':
 
-                    Listados();
+                    Listados('s', 'p');
                     System.out.println();
                     break;
 
