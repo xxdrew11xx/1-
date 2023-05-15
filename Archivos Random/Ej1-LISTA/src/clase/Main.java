@@ -253,8 +253,7 @@ public class Main {
                 if (modo == 'p') {
 
                     System.out.print("\n[!] Pulsa INTRO para continuar....");
-                    Scanner sc = new Scanner(System.in);
-                    sc.nextLine();
+                    k.newLine();
 
                 }
                 System.out.println(
