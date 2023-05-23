@@ -8,7 +8,6 @@ import java.io.RandomAccessFile;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Scanner;
 
 public class Main {
 

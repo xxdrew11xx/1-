@@ -292,22 +292,61 @@ use BD_Biblioteca
 
 drop database BDprueba
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- denominacion, nombre de proov nombre de provincia, nombre familia y lo que falta para stock maximo stando en stock minimo
+
+if OBJECT_ID('vista1tMuebles', 'V') is not null
+	drop view vista1tMuebles
+
+create view vista1tMuebles
+as 
+select denominacion, familia, tp.nombre, tp2.nombre as 'Nombre de Proovedor', (stock_max - stock_act) as 'Para pedir' from tMuebles tm, tProvincias tp, tProovedores tp2  where (tm.cod_provedor  = tp2.codigo) and (stock_act <= stock_min) and (tp2.cod_provincia  = tp.codigo_provincia)
 
 
+select * from vista1tMuebles
+
+select * from tMuebles tm 
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- codigo denominacion precio
+
+if OBJECT_ID('F_codeDenomPrec', 'TF') is not null
+	drop FUNCTION F_codeDenomPrec
+	
+create function	F_codeDenomPrec()
+returns @vtable table(codigo char(6), denominacion varchar(20), precio money)
+as
+BEGIN
+	
+	insert into @vtable select codigo, denominacion, precio from tMuebles where precio = (select max(precio) from tMuebles )
+	return 
+	
+END
+
+select * from F_codeDenomPrec()
 
 
+select * from tMuebles tm 
+update tmuebles set precio = 125.32 where codigo = 'GHR4'
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- desencadenador tpedidos que va a contener el codigo del articulo el codigo de la familia el codigo del proovedor las unidades pedidas que seran la que falten para el stock maximo el valor del pedido y fecha del sistema(fech pedido)
+modificando stock actual pase a estra en stock minimo
 
-
-
-
-
-
-
-
-
-
-
+IF ('T_triigertMuebles', 'TR') is not NULL 
+	drop TRIGGER T_triigertMuebles
+	
+create trigger T_triigertMuebles
+on tMuebles
+after update
+	 as 
+	 declare @stockAct int, @stockmin int, @stockMax int
+	 select @stockAct = stock_act, @stockMin = stock_min, @stockMax = stock_max from tMuebles tm where codigo = (select codigo from update)
+	 
+	if not exists(select name from sysobjects where name='tPedidos' and type='U')
+	 	create  table tPedidos(codigo char(6), codigo_Familia char(5), codigoprov char(4), unidades_Pedidas int, precio money)
+	 	
+	 if()
 
 
 
