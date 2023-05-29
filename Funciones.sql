@@ -349,22 +349,84 @@ after update
 	 if()
 
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- mueble, nombre de la familia, un estado, (alto segun stock)
 
+If OBJECT_ID('FuncionMulti1', 'TF') is not null
+	drop function FuncionMulti1
+	
+create function FuncionMulti1(@codigo char (6))
+returns @table table(denominacion varchar(20), familia varchar(15), estado char (1))
+as
+begin
+	
+	declare @stockmin decimal(9,2), @stockmax decimal(9,2), @stockact decimal(9,2), @denominacion varchar(20), @familia varchar(15)
+	select @stockmin = stock_min, @stockmax = stock_max, @stockact = stock_act, @denominacion = denominacion, @familia = tf.nombre  from tMuebles tm, tFamilias tf where tm.codigo = @codigo and tm.familia = tf.codigo_familia
+	
+	declare @aviso char
+	
+	if(@stockact <= @stockmin)
+		set @aviso = 'B'
+	else
+		if(@stockact <= @stockmax)
+			set @aviso = 'N'
+		else
+			set @aviso = 'A'
+			
+	insert into @table values(@denominacion, @familia, @aviso)
+	return
+end
 
+select * from FuncionMulti1('GHR4  ')
 
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--
 
+if object_id('AvisoStock', 'P') is not null
+	drop procedure AvisoStock
 
+create procedure AvisoStock @codArt char(6), @codFami char(5), @Unidades decimal(9,2), @op char
+as
+begin
+	
+	if(@op like '[es]')
+	begin
+		
+		if(@op = 'e')
+		begin
+				
+			update tMuebles set stock_act = stock_act + @Unidades where codigo = @codArt
+			
+		end
+		ELSE 
+		BEGIN 
+			update tMuebles set stock_act = stock_act - @Unidades where codigo = @codArt
+			
+		END
+		
+	
+	
+	declare @stockmin decimal(9,2), @stockmax decimal(9,2), @stockact decimal(9,2)
+	select @stockmin = stock_min, @stockmax = stock_max, @stockact = stock_act from tMuebles tm where  codigo = @codArt 
+		
+	if(@stockact <= @stockmin)
+		print 'El stock actual es menor al minimo'
+	else
+		if(@stockact >= @stockmax)
+				print 'El stock actual es mayor al máximo'
+		
+	end
+	
+	if(@@ROWCOUNT < 0)
+	begin
+		
+		print 'El código es erróneo'
+		
+	end
+	3
+end
 
-
-
-
-
-
-
-
-
-
-
+exec AvisoStock 'PLK7','DORgI',15,'s'
 
 
 
